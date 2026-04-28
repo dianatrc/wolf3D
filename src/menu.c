@@ -17,12 +17,12 @@ static void create_objects(menu_t *menu)
 }
 
 static void setup_text(sfText *text, sfFont *font,
-    char *string, sfVector2f pos)
+    const char *string, sfVector2f *pos)
 {
     sfText_setString(text, string);
     sfText_setFont(text, font);
     sfText_setCharacterSize(text, 50);
-    sfText_setPosition(text, pos);
+    sfText_setPosition(text, *pos);
     sfText_setColor(text, sfWhite);
 }
 
@@ -34,14 +34,14 @@ static void menu_texts(menu_t *menu)
     const char *exit = "EXIT";
     sfVector2f title_pos = {400, 100};
     sfVector2f play_pos = {350, 200};
-    sfVector2f settings_pos = {400, 250};
-    sfVector2f exit_pos = {450, 300};
+    sfVector2f settings_pos = {400, 200};
+    sfVector2f exit_pos = {450, 200};
 
-    setup_text(menu->title, menu->font, title, title_pos);
+    setup_text(menu->title, menu->font, title, &title_pos);
     sfText_setCharacterSize(menu->title, 100);
-    setup_text(menu->play_button, menu->font, play, play_pos);
-    setup_text(menu->settings, menu->font, settings, settings_pos);
-    setup_text(menu->exit_button, menu->font, exit, exit_pos);
+    setup_text(menu->play_button, menu->font, play, &play_pos);
+    setup_text(menu->settings, menu->font, settings, &settings_pos);
+    setup_text(menu->exit_button, menu->font, exit, &exit_pos);
 }
 
 menu_t *init_menu(void)
