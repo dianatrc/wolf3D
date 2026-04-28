@@ -10,7 +10,8 @@ LDFLAGS = -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio -lm
 CFLAGS = -Wall -Wextra -Werror -I.
 
 SRC = src/main.c \
-	src/window.c
+	src/window.c \
+	src/map.c
 OBJ = $(SRC:.c=.o)
 
 all: wolf3d

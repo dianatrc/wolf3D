@@ -20,8 +20,20 @@
     #include <stdlib.h>
     #include <stdio.h>
 
+    #define MAP_HEIGHT 10
+    #define MAP_WIDTH 10
+
+typedef struct {
+    int map_width;
+    int map_height;
+    int **tiles;
+} map_t;
+
 // window.c
 sfRenderWindow *create_my_window(int width, int height, sfUint32 style);
 void window_fullscreen(sfRenderWindow **window, sfUint32 *style);
+// map.c
+map_t *create_map(int width, int height);
+void free_map(map_t *map);
 
 #endif

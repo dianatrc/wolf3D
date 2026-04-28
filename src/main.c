@@ -35,14 +35,16 @@ int main(void)
 {
     sfUint32 style = sfClose | sfResize;
     sfRenderWindow *window = create_my_window(1280, 720, style);
+    map_t *map = create_map(MAP_WIDTH, MAP_HEIGHT);
 
-    if (!window)
+    if (!window || !map)
         return 84;
     while (sfRenderWindow_isOpen(window)) {
         game_loop(&window, &style);
         if (!window)
             return 84;
     }
+    free_map(map);
     sfRenderWindow_destroy(window);
     return 0;
 }
