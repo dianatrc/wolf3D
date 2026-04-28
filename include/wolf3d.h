@@ -29,11 +29,32 @@ typedef struct {
     int **tiles;
 } map_t;
 
+typedef struct {
+    sfVector2f pos;
+    float angle;
+    float speed;
+    float rot_speed;
+} player_t;
+
+typedef struct {
+    sfRenderWindow *window;
+    sfUint32 style;
+    sfClock *clock;
+    map_t *map;
+    player_t *player;
+} wolf_t;
+
 // window.c
 sfRenderWindow *create_my_window(int width, int height, sfUint32 style);
 void window_fullscreen(sfRenderWindow **window, sfUint32 *style);
 // map.c
 map_t *create_map(int width, int height);
 void free_map(map_t *map);
+// move.c
+player_t *create_player(void);
+void move_player(player_t *player, map_t *map, float dt);
+// wolf3d.c
+int init_wolf(wolf_t *wolf);
+void free_wolf(wolf_t *wolf);
 
 #endif
