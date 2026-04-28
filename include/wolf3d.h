@@ -29,6 +29,21 @@ typedef struct {
     int **tiles;
 } map_t;
 
+typedef enum {
+    MENU,
+    GAME
+} game_state_t;
+
+typedef struct {
+    sfFont *font;
+    sfText *title;
+    sfText *play_button;
+    sfText *settings;
+    sfText *exit_button;
+    sfSprite *sprite;
+    sfTexture *texture;
+} menu_t;
+
 // window.c
 sfRenderWindow *create_my_window(int width, int height, sfUint32 style);
 void window_fullscreen(sfRenderWindow **window, sfUint32 *style);

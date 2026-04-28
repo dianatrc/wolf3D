@@ -11,7 +11,8 @@ CFLAGS = -Wall -Wextra -Werror -I.
 
 SRC = src/main.c \
 	src/window.c \
-	src/map.c
+	src/map.c \
+	src/menu.c
 OBJ = $(SRC:.c=.o)
 
 all: wolf3d
