@@ -7,44 +7,43 @@
 
 #include "../include/wolf3d.h"
 
-static void handle_events(sfRenderWindow **window, sfEvent *event,
-    sfUint32 *style)
+static void handle_events(wolf_t *wolf, sfEvent *event)
 {
     if (event->type == sfEvtClosed)
-        sfRenderWindow_close(*window);
+        sfRenderWindow_close(wolf->window);
     if (event->type == sfEvtKeyPressed) {
         if (event->key.code == sfKeyF)
-            window_fullscreen(window, style);
+            window_fullscreen(&(wolf->window), &wolf->style);
     }
 }
 
-static void game_loop(sfRenderWindow **window, sfUint32 *style)
+static void game_loop(wolf_t *wolf)
 {
     sfEvent event;
+    sfTime time = sfClock_restart(wolf->clock);
+    float dt = sfTime_asSeconds(time);
 
-    while (sfRenderWindow_pollEvent(*window, &event)) {
-        handle_events(window, &event, style);
+    while (sfRenderWindow_pollEvent(wolf->window, &event)) {
+        handle_events(wolf, &event);
     }
-    if (!(*window))
+    if (!(wolf->window))
         return;
-    sfRenderWindow_clear(*window, sfBlack);
-    sfRenderWindow_display(*window);
+    move_player(wolf->player, wolf->map, dt);
+    sfRenderWindow_clear(wolf->window, sfBlack);
+    sfRenderWindow_display(wolf->window);
 }
 
 int main(void)
 {
-    sfUint32 style = sfClose | sfResize;
-    sfRenderWindow *window = create_my_window(1280, 720, style);
-    map_t *map = create_map(MAP_WIDTH, MAP_HEIGHT);
+    wolf_t wolf;
 
-    if (!window || !map)
+    if (init_wolf(&wolf) == 84) {
+        free_wolf(&wolf);
         return 84;
-    while (sfRenderWindow_isOpen(window)) {
-        game_loop(&window, &style);
-        if (!window)
-            return 84;
     }
-    free_map(map);
-    sfRenderWindow_destroy(window);
+    while (sfRenderWindow_isOpen(wolf.window)) {
+        game_loop(&wolf);
+    }
+    free_wolf(&wolf);
     return 0;
 }

@@ -13,6 +13,8 @@ SRC = src/main.c \
 	src/window.c \
 	src/map.c \
 	src/menu.c
+	src/player.c \
+	src/wolf3d.c
 OBJ = $(SRC:.c=.o)
 
 all: wolf3d
