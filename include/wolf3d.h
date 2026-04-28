@@ -36,14 +36,6 @@ typedef struct {
     float rot_speed;
 } player_t;
 
-typedef struct {
-    sfRenderWindow *window;
-    sfUint32 style;
-    sfClock *clock;
-    map_t *map;
-    player_t *player;
-} wolf_t;
-
 typedef enum {
     MENU,
     GAME
@@ -59,6 +51,16 @@ typedef struct {
     sfTexture *texture;
 } menu_t;
 
+typedef struct {
+    sfRenderWindow *window;
+    sfUint32 style;
+    sfClock *clock;
+    map_t *map;
+    player_t *player;
+    menu_t *menu;
+    game_state_t state;
+} wolf_t;
+
 // window.c
 sfRenderWindow *create_my_window(int width, int height, sfUint32 style);
 void window_fullscreen(sfRenderWindow **window, sfUint32 *style);
@@ -71,5 +73,9 @@ void move_player(player_t *player, map_t *map, float dt);
 // wolf3d.c
 int init_wolf(wolf_t *wolf);
 void free_wolf(wolf_t *wolf);
+// menu.c
+menu_t *init_menu(void);
+void display_menu(sfRenderWindow *window, menu_t *menu);
+void destroy_menu(menu_t *menu);
 
 #endif

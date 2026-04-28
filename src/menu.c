@@ -32,10 +32,10 @@ static void menu_texts(menu_t *menu)
     const char *play = "PLAY";
     const char *settings = "SETTINGS";
     const char *exit = "EXIT";
-    sfVector2f title_pos = {400, 100};
-    sfVector2f play_pos = {350, 200};
-    sfVector2f settings_pos = {400, 200};
-    sfVector2f exit_pos = {450, 200};
+    sfVector2f title_pos = {200, 200};
+    sfVector2f play_pos = {300, 400};
+    sfVector2f settings_pos = {350, 450};
+    sfVector2f exit_pos = {400, 500};
 
     setup_text(menu->title, menu->font, title, &title_pos);
     sfText_setCharacterSize(menu->title, 100);

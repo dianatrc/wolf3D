@@ -7,6 +7,16 @@
 
 #include "../include/wolf3d.h"
 
+static int check_click(sfText *text, sfRenderWindow *window)
+{
+    sfFloatRect rect = sfText_getGlobalBounds(text);
+    sfVector2i mouse_pos = sfMouse_getPositionRenderWindow(window);
+
+    if (sfFloatRect_contains(&rect, mouse_pos.x, mouse_pos.y))
+        return 1;
+    return 0;
+}
+
 static void handle_events(wolf_t *wolf, sfEvent *event)
 {
     if (event->type == sfEvtClosed)
@@ -14,6 +24,12 @@ static void handle_events(wolf_t *wolf, sfEvent *event)
     if (event->type == sfEvtKeyPressed) {
         if (event->key.code == sfKeyF)
             window_fullscreen(&(wolf->window), &wolf->style);
+    }
+    if (wolf->state == MENU && event->type == sfEvtMouseButtonPressed) {
+        if (check_click(wolf->menu->play_button, wolf->window))
+            wolf->state = GAME;
+        if (check_click(wolf->menu->exit_button, wolf->window))
+            sfRenderWindow_close(wolf->window);
     }
 }
 
@@ -28,8 +44,11 @@ static void game_loop(wolf_t *wolf)
     }
     if (!(wolf->window))
         return;
-    move_player(wolf->player, wolf->map, dt);
     sfRenderWindow_clear(wolf->window, sfBlack);
+    if (wolf->state == MENU)
+        display_menu(wolf->window, wolf->menu);
+    else
+        move_player(wolf->player, wolf->map, dt);
     sfRenderWindow_display(wolf->window);
 }
 

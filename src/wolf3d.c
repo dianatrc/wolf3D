@@ -14,7 +14,10 @@ int init_wolf(wolf_t *wolf)
     wolf->map = create_map(MAP_WIDTH, MAP_HEIGHT);
     wolf->player = create_player();
     wolf->clock = sfClock_create();
-    if (!wolf->window || !wolf->map || !wolf->player || !wolf->clock)
+    wolf->menu = init_menu();
+    wolf->state = MENU;
+    if (!wolf->window || !wolf->map || !wolf->player ||
+        !wolf->clock || !wolf->menu)
         return 84;
     return 0;
 }
@@ -29,4 +32,6 @@ void free_wolf(wolf_t *wolf)
         free(wolf->player);
     if (wolf->clock)
         sfClock_destroy(wolf->clock);
+    if (wolf->menu)
+        destroy_menu(wolf->menu);
 }
