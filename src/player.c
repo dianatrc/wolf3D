@@ -13,9 +13,9 @@ player_t *create_player(void)
 
     if (!player)
         return NULL;
-    player->pos.x = 2.0f;
-    player->pos.y = 2.0f;
-    player->angle = 0.0f;
+    player->pos = (sfVector2f){2.0f, 2.0f};
+    player->dir = (sfVector2f){1.0f, 0.0f};
+    player->plane = (sfVector2f){0.0f, 0.66f};
     player->speed = 3.0f;
     player->rot_speed = 2.0f;
     return player;
@@ -30,25 +30,41 @@ static int is_wall(map_t *map, float x, float y)
     return 0;
 }
 
+static void rotate_player(player_t *player, float rot_speed)
+{
+    float old_dir_x = player->dir.x;
+    float old_plane_x = player->plane.x;
+
+    player->dir.x = player->dir.x * cos(rot_speed) -
+        player->dir.y * sin(rot_speed);
+    player->dir.y = old_dir_x * sin(rot_speed) +
+        player->dir.y * cos(rot_speed);
+    player->plane.x = player->plane.x * cos(rot_speed) -
+        player->plane.y * sin(rot_speed);
+    player->plane.y = old_plane_x * sin(rot_speed) +
+        player->plane.y * cos(rot_speed);
+}
+
 void move_player(player_t *player, map_t *map, float dt)
 {
     sfVector2f next = {player->pos.x, player->pos.y};
     float move_step = player->speed * dt;
+    float rot_step = player->rot_speed * dt;
 
     if (sfKeyboard_isKeyPressed(sfKeyW)) {
-        next.x += cos(player->angle) * move_step;
-        next.y += sin(player->angle) * move_step;
+        next.x += player->dir.x * move_step;
+        next.y += player->dir.y * move_step;
     }
     if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        next.x -= cos(player->angle) * move_step;
-        next.y -= sin(player->angle) * move_step;
+        next.x -= player->dir.x * move_step;
+        next.y -= player->dir.y * move_step;
     }
     if (!is_wall(map, next.x, player->pos.y))
         player->pos.x = next.x;
     if (!is_wall(map, player->pos.x, next.y))
         player->pos.y = next.y;
     if (sfKeyboard_isKeyPressed(sfKeyA))
-        player->angle -= player->rot_speed * dt;
+        rotate_player(player, -rot_step);
     if (sfKeyboard_isKeyPressed(sfKeyD))
-        player->angle += player->rot_speed * dt;
+        rotate_player(player, rot_step);
 }

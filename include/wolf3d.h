@@ -31,10 +31,17 @@ typedef struct {
 
 typedef struct {
     sfVector2f pos;
-    float angle;
+    sfVector2f dir;
+    sfVector2f plane;
     float speed;
     float rot_speed;
 } player_t;
+
+typedef struct {
+    int width;
+    int height;
+    sfUint8 *pixels;
+} framebuffer_t;
 
 typedef enum {
     MENU,
@@ -59,6 +66,9 @@ typedef struct {
     player_t *player;
     menu_t *menu;
     game_state_t state;
+    framebuffer_t *buffer;
+    sfTexture *texture;
+    sfSprite *sprite;
 } wolf_t;
 
 // window.c
@@ -77,5 +87,7 @@ void free_wolf(wolf_t *wolf);
 menu_t *init_menu(void);
 void display_menu(sfRenderWindow *window, menu_t *menu);
 void destroy_menu(menu_t *menu);
+// drawing.c
+void render_wolf(wolf_t *wolf);
 
 #endif

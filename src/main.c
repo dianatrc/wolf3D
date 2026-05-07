@@ -47,8 +47,11 @@ static void game_loop(wolf_t *wolf)
     sfRenderWindow_clear(wolf->window, sfBlack);
     if (wolf->state == MENU)
         display_menu(wolf->window, wolf->menu);
-    else
+    else {
+        render_wolf(wolf);
         move_player(wolf->player, wolf->map, dt);
+        sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
+    }
     sfRenderWindow_display(wolf->window);
 }
 

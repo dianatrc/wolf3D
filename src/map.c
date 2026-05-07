@@ -14,6 +14,13 @@ static void free_tiles(int **tiles, int rows)
     free(tiles);
 }
 
+static int get_tile_value(int width, int height, int x, int y)
+{
+    if (y == 0 || x == 0 || y == height - 1 || x == width - 1)
+        return 1;
+    return 0;
+}
+
 static int **init_map_tiles(int width, int height)
 {
     int **tiles = malloc(height * sizeof(int *));
@@ -27,7 +34,7 @@ static int **init_map_tiles(int width, int height)
             return NULL;
         }
         for (int j = 0; j < width; j++)
-            tiles[i][j] = 0;
+            tiles[i][j] = get_tile_value(width, height, j, i);
     }
     return tiles;
 }

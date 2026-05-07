@@ -14,7 +14,9 @@ SRC = src/main.c \
 	src/map.c \
 	src/menu.c \
 	src/player.c \
-	src/wolf3d.c
+	src/wolf3d.c \
+	src/raycast.c \
+	src/drawing.c
 OBJ = $(SRC:.c=.o)
 
 all: wolf3d
