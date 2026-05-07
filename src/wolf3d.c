@@ -27,7 +27,7 @@ int init_wolf(wolf_t *wolf)
 {
     wolf->style = sfClose | sfResize;
     wolf->window = create_my_window(1280, 720, wolf->style);
-    wolf->map = create_map(MAP_WIDTH, MAP_HEIGHT);
+    wolf->map = load_map("map.legend");
     wolf->player = create_player();
     wolf->clock = sfClock_create();
     wolf->menu = init_menu();

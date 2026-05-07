@@ -20,9 +20,6 @@
     #include <stdlib.h>
     #include <stdio.h>
 
-    #define MAP_HEIGHT 10
-    #define MAP_WIDTH 10
-
 typedef struct {
     int map_width;
     int map_height;
@@ -75,7 +72,7 @@ typedef struct {
 sfRenderWindow *create_my_window(int width, int height, sfUint32 style);
 void window_fullscreen(sfRenderWindow **window, sfUint32 *style);
 // map.c
-map_t *create_map(int width, int height);
+map_t *load_map(char *filename);
 void free_map(map_t *map);
 // move.c
 player_t *create_player(void);
