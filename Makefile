@@ -17,7 +17,8 @@ SRC = src/main.c \
 	src/wolf3d.c \
 	src/raycast.c \
 	src/drawing.c \
-	src/save.c
+	src/save.c \
+	src/sound.c
 OBJ = $(SRC:.c=.o)
 
 all: wolf3d

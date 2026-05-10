@@ -41,6 +41,7 @@ int init_wolf(wolf_t *wolf)
     sfSprite_setTexture(wolf->sprite, wolf->texture, sfTrue);
     wolf->state = MENU;
     wolf->flash_on = 0;
+    wolf->sounds = init_sounds();
     return 0;
 }
 
@@ -64,4 +65,6 @@ void free_wolf(wolf_t *wolf)
         sfTexture_destroy(wolf->texture);
     if (wolf->sprite)
         sfSprite_destroy(wolf->sprite);
+    if (wolf->sounds)
+        free_sounds(wolf->sounds);
 }

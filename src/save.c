@@ -18,6 +18,7 @@ int save_game(wolf_t *wolf, char *filepath)
     fprintf(file, "%f %f\n", wolf->player->plane.x, wolf->player->plane.y);
     fprintf(file, "%d\n", wolf->flash_on);
     fclose(file);
+    sfSound_play(wolf->sounds->save);
     return 0;
 }
 

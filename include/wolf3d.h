@@ -59,6 +59,16 @@ typedef struct {
 } menu_t;
 
 typedef struct {
+    sfMusic *music;
+    sfSound *shoot;
+    sfSoundBuffer *shoot_buf;
+    sfSound *click;
+    sfSoundBuffer *click_buf;
+    sfSound *save;
+    sfSoundBuffer *save_buf;
+} sound_t;
+
+typedef struct {
     sfRenderWindow *window;
     sfUint32 style;
     sfClock *clock;
@@ -70,6 +80,7 @@ typedef struct {
     sfTexture *texture;
     sfSprite *sprite;
     int flash_on;
+    sound_t *sounds;
 } wolf_t;
 
 // window.c
@@ -93,5 +104,8 @@ void render_wolf(wolf_t *wolf);
 // save.c
 int save_game(wolf_t *wolf, char *filepath);
 int load_save(wolf_t *wolf, char *filepath);
+// sound.c
+sound_t *init_sounds(void);
+void free_sounds(sound_t *sounds);
 
 #endif

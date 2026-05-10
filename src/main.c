@@ -19,15 +19,23 @@ static int check_click(sfText *text, sfRenderWindow *window)
 
 static void menu_state(wolf_t *wolf)
 {
-    if (check_click(wolf->menu->play_button, wolf->window))
+    if (check_click(wolf->menu->play_button, wolf->window)) {
+        sfSound_play(wolf->sounds->click);
         wolf->state = GAME;
-    if (check_click(wolf->menu->exit_button, wolf->window))
+    }
+    if (check_click(wolf->menu->exit_button, wolf->window)) {
+        sfSound_play(wolf->sounds->click);
         sfRenderWindow_close(wolf->window);
-    if (check_click(wolf->menu->save_button, wolf->window))
+    }
+    if (check_click(wolf->menu->save_button, wolf->window)) {
+        sfSound_play(wolf->sounds->click);
         save_game(wolf, "saved.txt");
-    if (check_click(wolf->menu->load_button, wolf->window))
+    }
+    if (check_click(wolf->menu->load_button, wolf->window)) {
+        sfSound_play(wolf->sounds->click);
         if (load_save(wolf, "saved.txt") == 0)
             wolf->state = GAME;
+    }
 }
 
 static void handle_events(wolf_t *wolf, sfEvent *event)
@@ -46,8 +54,10 @@ static void handle_events(wolf_t *wolf, sfEvent *event)
         if (wolf->state == MENU)
             menu_state(wolf);
         if (wolf->state == GAME
-            && check_click(wolf->menu->to_menu, wolf->window))
+            && check_click(wolf->menu->to_menu, wolf->window)) {
+            sfSound_play(wolf->sounds->click);
             wolf->state = MENU;
+        }
     }
 }
 
