@@ -24,6 +24,8 @@ static void handle_events(wolf_t *wolf, sfEvent *event)
     if (event->type == sfEvtKeyPressed) {
         if (event->key.code == sfKeyF)
             window_fullscreen(&(wolf->window), &wolf->style);
+        if (event->key.code == sfKeyL)
+            wolf->flash_on = !wolf->flash_on;
     }
     if (wolf->state == MENU && event->type == sfEvtMouseButtonPressed) {
         if (check_click(wolf->menu->play_button, wolf->window))

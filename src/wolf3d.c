@@ -40,6 +40,7 @@ int init_wolf(wolf_t *wolf)
         return 84;
     sfSprite_setTexture(wolf->sprite, wolf->texture, sfTrue);
     wolf->state = MENU;
+    wolf->flash_on = 0;
     return 0;
 }
 

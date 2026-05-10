@@ -66,6 +66,7 @@ typedef struct {
     framebuffer_t *buffer;
     sfTexture *texture;
     sfSprite *sprite;
+    int flash_on;
 } wolf_t;
 
 // window.c
