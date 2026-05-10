@@ -34,14 +34,15 @@ int init_wolf(wolf_t *wolf)
     wolf->buffer = create_framebuffer(1280, 720);
     wolf->texture = sfTexture_create(1280, 720);
     wolf->sprite = sfSprite_create();
+    sfSprite_setTexture(wolf->sprite, wolf->texture, sfTrue);
+    wolf->sounds = init_sounds();
     if (!wolf->window || !wolf->map || !wolf->player ||
         !wolf->clock || !wolf->menu || !wolf->buffer ||
-        !wolf->texture || !wolf->sprite)
+        !wolf->texture || !wolf->sprite || !wolf->sounds)
         return 84;
-    sfSprite_setTexture(wolf->sprite, wolf->texture, sfTrue);
     wolf->state = MENU;
     wolf->flash_on = 0;
-    wolf->sounds = init_sounds();
+    wolf->menu->volume = 20.0f;
     return 0;
 }
 

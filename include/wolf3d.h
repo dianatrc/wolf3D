@@ -42,7 +42,8 @@ typedef struct {
 
 typedef enum {
     MENU,
-    GAME
+    GAME,
+    SETTINGS
 } game_state_t;
 
 typedef struct {
@@ -53,9 +54,13 @@ typedef struct {
     sfText *load_button;
     sfText *settings;
     sfText *exit_button;
-    sfText *to_menu;
+    sfText *g_to_menu;
     sfSprite *sprite;
     sfTexture *texture;
+    sfText *vol_up;
+    sfText *vol_down;
+    sfText *s_to_menu;
+    float volume;
 } menu_t;
 
 typedef struct {
@@ -98,6 +103,7 @@ void free_wolf(wolf_t *wolf);
 // menu.c
 menu_t *init_menu(void);
 void display_menu(sfRenderWindow *window, menu_t *menu);
+void display_settings(sfRenderWindow *window, menu_t *menu);
 void destroy_menu(menu_t *menu);
 // drawing.c
 void render_wolf(wolf_t *wolf);
@@ -106,6 +112,7 @@ int save_game(wolf_t *wolf, char *filepath);
 int load_save(wolf_t *wolf, char *filepath);
 // sound.c
 sound_t *init_sounds(void);
+void update_volume(wolf_t *wolf, float offset);
 void free_sounds(sound_t *sounds);
 
 #endif

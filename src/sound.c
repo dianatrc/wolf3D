@@ -26,7 +26,7 @@ sound_t *init_sounds(void)
     if (!sounds)
         return NULL;
     if (load_audios(sounds) == 84) {
-        free(sounds);
+        free_sounds(sounds);
         return NULL;
     }
     sounds->shoot = sfSound_create();
@@ -40,10 +40,27 @@ sound_t *init_sounds(void)
     return sounds;
 }
 
+void update_volume(wolf_t *wolf, float offset)
+{
+    wolf->menu->volume += offset;
+    if (wolf->menu->volume < 0)
+        wolf->menu->volume = 0;
+    if (wolf->menu->volume > 100)
+        wolf->menu->volume = 100;
+    sfMusic_setVolume(wolf->sounds->music, wolf->menu->volume);
+    sfSound_setVolume(wolf->sounds->click, wolf->menu->volume);
+    sfSound_setVolume(wolf->sounds->save, wolf->menu->volume);
+    sfSound_setVolume(wolf->sounds->shoot, wolf->menu->volume);
+}
+
 void free_sounds(sound_t *sounds)
 {
     if (!sounds)
         return;
+    sfMusic_stop(sounds->music);
+    sfSound_stop(sounds->shoot);
+    sfSound_stop(sounds->click);
+    sfSound_stop(sounds->save);
     sfMusic_destroy(sounds->music);
     sfSound_destroy(sounds->shoot);
     sfSound_destroy(sounds->click);
