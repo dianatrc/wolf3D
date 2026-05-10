@@ -56,6 +56,16 @@ typedef struct {
 } menu_t;
 
 typedef struct {
+    sfSprite *sprite;
+    sfTexture *texture;
+    sfVector2f rest_pos;
+    float rest_rot;
+    sfVector2f aim_pos;
+    float aim_rot;
+    int is_aiming;
+} weapon_t;
+
+typedef struct {
     sfRenderWindow *window;
     sfUint32 style;
     sfClock *clock;
@@ -66,6 +76,7 @@ typedef struct {
     framebuffer_t *buffer;
     sfTexture *texture;
     sfSprite *sprite;
+    weapon_t *weapon;
 } wolf_t;
 
 // window.c
