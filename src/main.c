@@ -17,6 +17,19 @@ static int check_click(sfText *text, sfRenderWindow *window)
     return 0;
 }
 
+static void menu_state(wolf_t *wolf)
+{
+    if (check_click(wolf->menu->play_button, wolf->window))
+        wolf->state = GAME;
+    if (check_click(wolf->menu->exit_button, wolf->window))
+        sfRenderWindow_close(wolf->window);
+    if (check_click(wolf->menu->save_button, wolf->window))
+        save_game(wolf, "saved.txt");
+    if (check_click(wolf->menu->load_button, wolf->window))
+        if (load_save(wolf, "saved.txt") == 0)
+            wolf->state = GAME;
+}
+
 static void handle_events(wolf_t *wolf, sfEvent *event)
 {
     if (event->type == sfEvtClosed)
@@ -26,12 +39,15 @@ static void handle_events(wolf_t *wolf, sfEvent *event)
             window_fullscreen(&(wolf->window), &wolf->style);
         if (event->key.code == sfKeyL)
             wolf->flash_on = !wolf->flash_on;
+        if (event->key.code == sfKeyEscape)
+            wolf->state = MENU;
     }
-    if (wolf->state == MENU && event->type == sfEvtMouseButtonPressed) {
-        if (check_click(wolf->menu->play_button, wolf->window))
-            wolf->state = GAME;
-        if (check_click(wolf->menu->exit_button, wolf->window))
-            sfRenderWindow_close(wolf->window);
+    if (event->type == sfEvtMouseButtonPressed) {
+        if (wolf->state == MENU)
+            menu_state(wolf);
+        if (wolf->state == GAME
+            && check_click(wolf->menu->to_menu, wolf->window))
+            wolf->state = MENU;
     }
 }
 
@@ -47,12 +63,14 @@ static void game_loop(wolf_t *wolf)
     if (!(wolf->window))
         return;
     sfRenderWindow_clear(wolf->window, sfBlack);
-    if (wolf->state == MENU)
+    if (wolf->state == MENU) {
+        sfRenderWindow_setMouseCursorVisible(wolf->window, sfTrue);
         display_menu(wolf->window, wolf->menu);
-    else {
+    } else {
         render_wolf(wolf);
         move_player(wolf->player, wolf->map, dt);
         sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
+        sfRenderWindow_drawText(wolf->window, wolf->menu->to_menu, NULL);
     }
     sfRenderWindow_display(wolf->window);
 }

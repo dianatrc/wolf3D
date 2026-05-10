@@ -49,8 +49,11 @@ typedef struct {
     sfFont *font;
     sfText *title;
     sfText *play_button;
+    sfText *save_button;
+    sfText *load_button;
     sfText *settings;
     sfText *exit_button;
+    sfText *to_menu;
     sfSprite *sprite;
     sfTexture *texture;
 } menu_t;
@@ -87,5 +90,8 @@ void display_menu(sfRenderWindow *window, menu_t *menu);
 void destroy_menu(menu_t *menu);
 // drawing.c
 void render_wolf(wolf_t *wolf);
+// save.c
+int save_game(wolf_t *wolf, char *filepath);
+int load_save(wolf_t *wolf, char *filepath);
 
 #endif
