@@ -75,6 +75,7 @@ menu_t *init_menu(void)
     create_objects(menu);
     sfSprite_setTexture(menu->sprite, menu->texture, sfTrue);
     menu_texts(menu);
+    menu->volume = 20.0f;
     return menu;
 }
 

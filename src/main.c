@@ -72,6 +72,9 @@ static void game_state(wolf_t *wolf)
     float dt = sfTime_asSeconds(time);
 
     render_wolf(wolf);
+    sort_enemies(wolf);
+    draw_enemies(wolf);
+    update_enemies(wolf, dt);
     move_player(wolf->player, wolf->map, dt);
     sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
     sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);

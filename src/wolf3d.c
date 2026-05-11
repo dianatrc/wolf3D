@@ -16,16 +16,36 @@ static framebuffer_t *create_framebuffer(int width, int height)
     buffer->width = width;
     buffer->height = height;
     buffer->pixels = malloc(width * height * 4 * sizeof(sfUint8));
-    if (!buffer->pixels) {
+    buffer->d_buffer = malloc(sizeof(float) * width);
+    if (!buffer->pixels || !buffer->d_buffer) {
+        if (buffer->pixels)
+            free(buffer->pixels);
+        if (buffer->d_buffer)
+            free(buffer->d_buffer);
         free(buffer);
         return NULL;
     }
     return buffer;
 }
 
-int init_wolf(wolf_t *wolf)
+static int init_helper(wolf_t *wolf)
 {
     wolf->style = sfClose | sfResize;
+    wolf->state = MENU;
+    wolf->flash_on = 0;
+    wolf->enemy_count = 1;
+    wolf->enemies = malloc(sizeof(enemy_t) * wolf->enemy_count);
+    if (!wolf->enemies)
+        return 1;
+    wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
+    wolf->enemies[0].health = 100;
+    return 0;
+}
+
+int init_wolf(wolf_t *wolf)
+{
+    if (init_helper(wolf) == 1)
+        return 84;
     wolf->window = create_my_window(1280, 720, wolf->style);
     wolf->map = load_map("map.legend");
     wolf->player = create_player();
@@ -36,14 +56,20 @@ int init_wolf(wolf_t *wolf)
     wolf->sprite = sfSprite_create();
     sfSprite_setTexture(wolf->sprite, wolf->texture, sfTrue);
     wolf->sounds = init_sounds();
-    if (!wolf->window || !wolf->map || !wolf->player ||
-        !wolf->clock || !wolf->menu || !wolf->buffer ||
-        !wolf->texture || !wolf->sprite || !wolf->sounds)
+    if (!wolf->window || !wolf->map || !wolf->player || !wolf->clock
+        || !wolf->menu || !wolf->buffer || !wolf->texture
+        || !wolf->sprite || !wolf->sounds) {
+        free_wolf(wolf);
         return 84;
-    wolf->state = MENU;
-    wolf->flash_on = 0;
-    wolf->menu->volume = 20.0f;
+    }
     return 0;
+}
+
+static void free_buffer(framebuffer_t *buffer)
+{
+    free(buffer->pixels);
+    free(buffer->d_buffer);
+    free(buffer);
 }
 
 void free_wolf(wolf_t *wolf)
@@ -58,14 +84,14 @@ void free_wolf(wolf_t *wolf)
         sfClock_destroy(wolf->clock);
     if (wolf->menu)
         destroy_menu(wolf->menu);
-    if (wolf->buffer) {
-        free(wolf->buffer->pixels);
-        free(wolf->buffer);
-    }
+    if (wolf->buffer)
+        free_buffer(wolf->buffer);
     if (wolf->texture)
         sfTexture_destroy(wolf->texture);
     if (wolf->sprite)
         sfSprite_destroy(wolf->sprite);
     if (wolf->sounds)
         free_sounds(wolf->sounds);
+    if (wolf->enemies)
+        free(wolf->enemies);
 }

@@ -17,7 +17,7 @@ static void apply_light(sfColor *color, float dist)
     color->b *= factor;
 }
 
-static void put_pixel(framebuffer_t *buffer, sfColor *color, int x, int y)
+void put_pixel(framebuffer_t *buffer, sfColor *color, int x, int y)
 {
     int i = 0;
 
@@ -86,6 +86,7 @@ void render_wolf(wolf_t *wolf)
         set_ray_steps(&ray);
         find_wall(&ray, wolf->map);
         calculate_line(&ray);
+        wolf->buffer->d_buffer[x] = ray.wall_dist;
         draw_wall(wolf->buffer, &ray, x, wolf);
     }
     sfTexture_updateFromPixels(wolf->texture, wolf->buffer->pixels,

@@ -13,7 +13,7 @@ player_t *create_player(void)
 
     if (!player)
         return NULL;
-    player->pos = (sfVector2f){2.0f, 2.0f};
+    player->pos = (sfVector2f){1.5f, 1.5f};
     player->dir = (sfVector2f){1.0f, 0.0f};
     player->plane = (sfVector2f){0.0f, 0.66f};
     player->speed = 3.0f;
@@ -21,7 +21,7 @@ player_t *create_player(void)
     return player;
 }
 
-static int is_wall(map_t *map, float x, float y)
+int is_wall(map_t *map, float x, float y)
 {
     if (x < 0 || x >= map->map_width || y < 0 || y >= map->map_height)
         return 1;

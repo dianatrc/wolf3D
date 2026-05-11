@@ -35,9 +35,17 @@ typedef struct {
 } player_t;
 
 typedef struct {
+    sfVector2f pos;
+    sfTexture *texture;
+    int health;
+    float dist;
+} enemy_t;
+
+typedef struct {
     int width;
     int height;
     sfUint8 *pixels;
+    float *d_buffer;
 } framebuffer_t;
 
 typedef enum {
@@ -86,6 +94,8 @@ typedef struct {
     sfSprite *sprite;
     int flash_on;
     sound_t *sounds;
+    enemy_t *enemies;
+    int enemy_count;
 } wolf_t;
 
 // window.c
@@ -96,6 +106,7 @@ map_t *load_map(char *filename);
 void free_map(map_t *map);
 // move.c
 player_t *create_player(void);
+int is_wall(map_t *map, float x, float y);
 void move_player(player_t *player, map_t *map, float dt);
 // wolf3d.c
 int init_wolf(wolf_t *wolf);
@@ -106,6 +117,7 @@ void display_menu(sfRenderWindow *window, menu_t *menu);
 void display_settings(sfRenderWindow *window, menu_t *menu);
 void destroy_menu(menu_t *menu);
 // drawing.c
+void put_pixel(framebuffer_t *buffer, sfColor *color, int x, int y);
 void render_wolf(wolf_t *wolf);
 // save.c
 int save_game(wolf_t *wolf, char *filepath);
@@ -114,5 +126,9 @@ int load_save(wolf_t *wolf, char *filepath);
 sound_t *init_sounds(void);
 void update_volume(wolf_t *wolf, float offset);
 void free_sounds(sound_t *sounds);
+// enemy.c
+void draw_enemies(wolf_t *wolf);
+void sort_enemies(wolf_t *wolf);
+void update_enemies(wolf_t *wolf, float dt);
 
 #endif
