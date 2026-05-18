@@ -36,7 +36,7 @@ typedef struct {
 
 typedef struct {
     sfVector2f pos;
-    sfTexture *texture;
+    sfImage *image;
     int health;
     float dist;
 } enemy_t;

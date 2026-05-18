@@ -30,6 +30,7 @@ static framebuffer_t *create_framebuffer(int width, int height)
 
 static int init_helper(wolf_t *wolf)
 {
+    wolf->menu = init_menu();
     wolf->style = sfClose | sfResize;
     wolf->state = MENU;
     wolf->flash_on = 0;
@@ -39,10 +40,11 @@ static int init_helper(wolf_t *wolf)
     wolf->ceiling_img = sfImage_createFromFile("utils/sky.bmp");
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
     if (!wolf->enemies || !wolf->wall_img || !wolf->ceiling_img
-        || !wolf->floor_img)
+        || !wolf->floor_img || !wolf->menu)
         return 1;
     wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
     wolf->enemies[0].health = 100;
+    wolf->enemies[0].image = sfImage_createFromFile("utils/enemy.bmp");
     return 0;
 }
 
@@ -54,15 +56,15 @@ int init_wolf(wolf_t *wolf)
     wolf->map = load_map("map.legend");
     wolf->player = create_player();
     wolf->clock = sfClock_create();
-    wolf->menu = init_menu();
     wolf->buffer = create_framebuffer(1280, 720);
     wolf->texture = sfTexture_create(1280, 720);
+    sfTexture_setSmooth(wolf->texture, sfTrue);
     wolf->sprite = sfSprite_create();
     sfSprite_setTexture(wolf->sprite, wolf->texture, sfTrue);
     wolf->sounds = init_sounds();
     wolf->weapon = init_weapon();
     if (!wolf->window || !wolf->map || !wolf->player || !wolf->clock
-        || !wolf->menu || !wolf->buffer || !wolf->texture
+        || !wolf->buffer || !wolf->texture
         || !wolf->sprite || !wolf->sounds || !wolf->weapon) {
         free_wolf(wolf);
         return 84;
