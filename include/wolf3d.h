@@ -148,4 +148,5 @@ void destroy_weapon(weapon_t *weapon);
 void update_weapon(weapon_t *weapon, float dt);
 // events.c
 void handle_events(wolf_t *wolf);
+
 #endif
