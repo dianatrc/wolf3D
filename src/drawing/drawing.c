@@ -5,10 +5,10 @@
 ** Drawing functions
 */
 
-#include "../include/wolf3d.h"
-#include "../include/raycast.h"
+#include "include/wolf3d.h"
+#include "include/raycast.h"
 
-static void apply_light(sfColor *color, float dist)
+void apply_light(sfColor *color, float dist)
 {
     float factor = 1.0f / (1.0f + (dist * dist * 0.07f));
 
@@ -28,17 +28,6 @@ void put_pixel(framebuffer_t *buffer, sfColor *color, int x, int y)
     buffer->pixels[i + 1] = color->g;
     buffer->pixels[i + 2] = color->b;
     buffer->pixels[i + 3] = color->a;
-}
-
-static void draw_ceiling(framebuffer_t *buffer, wolf_t *wolf, int y)
-{
-    float dist = (float)buffer->height / (buffer->height - 2.0f * y);
-    sfColor color = sfBlue;
-
-    if (wolf->flash_on)
-        apply_light(&color, dist);
-    for (int x = 0; x < buffer->width; x++)
-        put_pixel(buffer, &color, x, y);
 }
 
 static void draw_floor(framebuffer_t *buffer, wolf_t *wolf, int y)
