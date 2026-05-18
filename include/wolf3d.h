@@ -75,6 +75,9 @@ typedef struct {
     sfSprite *sprite;
     sfTexture *texture;
     sfVector2f rest_pos;
+    int is_shooting;
+    float shoot_time;
+    float duration;
 } weapon_t;
 
 typedef struct {
@@ -141,5 +144,7 @@ void update_enemies(wolf_t *wolf, float dt);
 weapon_t *init_weapon(void);
 void draw_weapon(sfRenderWindow *window, weapon_t *weapon);
 void destroy_weapon(weapon_t *weapon);
-
+void update_weapon(weapon_t *weapon, float dt);
+// events.c
+void handle_events(wolf_t *wolf);
 #endif
