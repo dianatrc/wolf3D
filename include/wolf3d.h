@@ -72,6 +72,15 @@ typedef struct {
 } menu_t;
 
 typedef struct {
+    sfSprite *sprite;
+    sfTexture *texture;
+    sfVector2f rest_pos;
+    int is_shooting;
+    float shoot_time;
+    float duration;
+} weapon_t;
+
+typedef struct {
     sfMusic *music;
     sfSound *shoot;
     sfSoundBuffer *shoot_buf;
@@ -92,10 +101,12 @@ typedef struct {
     framebuffer_t *buffer;
     sfTexture *texture;
     sfSprite *sprite;
+    weapon_t *weapon;
     int flash_on;
     sound_t *sounds;
     enemy_t *enemies;
     int enemy_count;
+    sfImage *wall_img;
 } wolf_t;
 
 // window.c
@@ -130,5 +141,11 @@ void free_sounds(sound_t *sounds);
 void draw_enemies(wolf_t *wolf);
 void sort_enemies(wolf_t *wolf);
 void update_enemies(wolf_t *wolf, float dt);
-
+// weapon.c
+weapon_t *init_weapon(void);
+void draw_weapon(sfRenderWindow *window, weapon_t *weapon);
+void destroy_weapon(weapon_t *weapon);
+void update_weapon(weapon_t *weapon, float dt);
+// events.c
+void handle_events(wolf_t *wolf);
 #endif
