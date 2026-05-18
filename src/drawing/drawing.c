@@ -30,17 +30,6 @@ void put_pixel(framebuffer_t *buffer, sfColor *color, int x, int y)
     buffer->pixels[i + 3] = color->a;
 }
 
-static void draw_floor(framebuffer_t *buffer, wolf_t *wolf, int y)
-{
-    float dist = (float)buffer->height / (2.0f * y - buffer->height);
-    sfColor color = sfGreen;
-
-    if (wolf->flash_on)
-        apply_light(&color, dist);
-    for (int x = 0; x < buffer->width; x++)
-        put_pixel(buffer, &color, x, y);
-}
-
 static void draw_background(framebuffer_t *buffer, wolf_t *wolf)
 {
     for (int y = 0; y < buffer->height / 2; y++)

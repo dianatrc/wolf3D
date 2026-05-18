@@ -108,6 +108,7 @@ typedef struct {
     int enemy_count;
     sfImage *wall_img;
     sfImage *ceiling_img;
+    sfImage *floor_img;
 } wolf_t;
 
 // window.c
@@ -134,6 +135,8 @@ void put_pixel(framebuffer_t *buffer, sfColor *color, int x, int y);
 void render_wolf(wolf_t *wolf);
 // ceiling.c
 void draw_ceiling(framebuffer_t *buffer, wolf_t *wolf, int y);
+// floor.c
+void draw_floor(framebuffer_t *buffer, wolf_t *wolf, int y);
 // save.c
 int save_game(wolf_t *wolf, char *filepath);
 int load_save(wolf_t *wolf, char *filepath);

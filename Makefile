@@ -18,6 +18,7 @@ SRC = src/main.c \
 	src/raycast.c \
 	src/drawing/drawing.c \
 	src/drawing/ceiling.c \
+	src/drawing/floor.c \
 	src/save.c \
 	src/sound.c \
 	src/enemy.c \
