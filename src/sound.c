@@ -19,6 +19,19 @@ static int load_audios(sound_t *sounds)
     return 0;
 }
 
+static int setup_sounds(sound_t *sounds)
+{
+    sounds->shoot = sfSound_create();
+    sounds->click = sfSound_create();
+    sounds->save = sfSound_create();
+    if (!sounds->shoot || !sounds->click || !sounds->save)
+        return 84;
+    sfSound_setBuffer(sounds->shoot, sounds->shoot_buf);
+    sfSound_setBuffer(sounds->click, sounds->click_buf);
+    sfSound_setBuffer(sounds->save, sounds->save_buf);
+    return 0;
+}
+
 sound_t *init_sounds(void)
 {
     sound_t *sounds = malloc(sizeof(sound_t));
@@ -29,20 +42,10 @@ sound_t *init_sounds(void)
     sounds->shoot = NULL;
     sounds->click = NULL;
     sounds->save = NULL;
-    if (load_audios(sounds) == 84) {
+    if (load_audios(sounds) == 84 || setup_sounds(sounds) == 84) {
         free_sounds(sounds);
         return NULL;
     }
-    sounds->shoot = sfSound_create();
-    sounds->click = sfSound_create();
-    sounds->save = sfSound_create();
-    if (!sounds->shoot || !sounds->click || !sounds->save) {
-        free_sounds(sounds);
-        return NULL;
-    }
-    sfSound_setBuffer(sounds->shoot, sounds->shoot_buf);
-    sfSound_setBuffer(sounds->click, sounds->click_buf);
-    sfSound_setBuffer(sounds->save, sounds->save_buf);
     sfMusic_setLoop(sounds->music, sfTrue);
     if (sfMusic_getStatus(sounds->music) != sfPlaying)
         sfMusic_play(sounds->music);
