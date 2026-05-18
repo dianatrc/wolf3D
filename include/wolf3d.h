@@ -78,6 +78,7 @@ typedef struct {
     int is_shooting;
     float shoot_time;
     float duration;
+    float bobbing_time;
 } weapon_t;
 
 typedef struct {
