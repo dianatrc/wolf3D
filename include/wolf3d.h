@@ -108,6 +108,7 @@ typedef struct {
     enemy_t *enemies;
     int enemy_count;
     sfImage *wall_img;
+    sfView *minimap;
 } wolf_t;
 
 // window.c
@@ -149,5 +150,8 @@ void destroy_weapon(weapon_t *weapon);
 void update_weapon(weapon_t *weapon, float dt);
 // events.c
 void handle_events(wolf_t *wolf);
+// mini_map.c
+void init_minimap(wolf_t *wolf);
+void draw_minimap(sfRenderWindow *window, wolf_t *wolf);
 
 #endif

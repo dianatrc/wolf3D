@@ -20,6 +20,7 @@ static void game_state(wolf_t *wolf)
     update_weapon(wolf->weapon, dt);
     sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
     draw_weapon(wolf->window, wolf->weapon);
+    draw_minimap(wolf->window, wolf);
     sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);
 }
 
@@ -51,9 +52,8 @@ int main(void)
         free_wolf(&wolf);
         return 84;
     }
-    while (sfRenderWindow_isOpen(wolf.window)) {
+    while (sfRenderWindow_isOpen(wolf.window))
         game_loop(&wolf);
-    }
     free_wolf(&wolf);
     return 0;
 }
