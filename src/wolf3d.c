@@ -35,7 +35,8 @@ static int init_helper(wolf_t *wolf)
     wolf->flash_on = 0;
     wolf->enemy_count = 1;
     wolf->enemies = malloc(sizeof(enemy_t) * wolf->enemy_count);
-    if (!wolf->enemies)
+    wolf->wall_img = sfImage_createFromFile("utils/wall.bmp");
+    if (!wolf->enemies || !wolf->wall_img)
         return 1;
     wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
     wolf->enemies[0].health = 100;
@@ -77,6 +78,8 @@ static void free_helper(wolf_t *wolf)
 {
     if (wolf->enemies)
         free(wolf->enemies);
+    if (wolf->wall_img)
+        sfImage_destroy(wolf->wall_img);
     if (wolf->weapon)
         destroy_weapon(wolf->weapon);
 }

@@ -43,9 +43,9 @@ static void draw_bullet_line(sfRenderWindow *window, weapon_t *weapon)
     if (weapon->shoot_time > half_duration)
         return;
     weapon_pos = sfSprite_getPosition(weapon->sprite);
-    lines[0].position = (sfVector2f){640.0f, weapon_pos.y + 40.0f};
+    lines[0].position = (sfVector2f){620.0f, weapon_pos.y + 40.0f};
     lines[0].color = sfYellow;
-    lines[1].position = (sfVector2f){640.0f, 200.0f};
+    lines[1].position = (sfVector2f){620.0f, 200.0f};
     lines[1].color = sfTransparent;
     sfRenderWindow_drawPrimitives(window, lines, 2, sfLines, NULL);
 }

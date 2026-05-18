@@ -106,6 +106,7 @@ typedef struct {
     sound_t *sounds;
     enemy_t *enemies;
     int enemy_count;
+    sfImage *wall_img;
 } wolf_t;
 
 // window.c
