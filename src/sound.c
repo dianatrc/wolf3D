@@ -25,6 +25,10 @@ sound_t *init_sounds(void)
 
     if (!sounds)
         return NULL;
+    sounds->music = NULL;
+    sounds->shoot = NULL;
+    sounds->click = NULL;
+    sounds->save = NULL;
     if (load_audios(sounds) == 84) {
         free_sounds(sounds);
         return NULL;
@@ -32,41 +36,68 @@ sound_t *init_sounds(void)
     sounds->shoot = sfSound_create();
     sounds->click = sfSound_create();
     sounds->save = sfSound_create();
+    if (!sounds->shoot || !sounds->click || !sounds->save) {
+        free_sounds(sounds);
+        return NULL;
+    }
     sfSound_setBuffer(sounds->shoot, sounds->shoot_buf);
     sfSound_setBuffer(sounds->click, sounds->click_buf);
     sfSound_setBuffer(sounds->save, sounds->save_buf);
     sfMusic_setLoop(sounds->music, sfTrue);
-    sfMusic_play(sounds->music);
+    if (sfMusic_getStatus(sounds->music) != sfPlaying)
+        sfMusic_play(sounds->music);
     return sounds;
 }
 
 void update_volume(wolf_t *wolf, float offset)
 {
+    if (!wolf || !wolf->sounds)
+        return;
     wolf->menu->volume += offset;
     if (wolf->menu->volume < 0)
         wolf->menu->volume = 0;
     if (wolf->menu->volume > 100)
         wolf->menu->volume = 100;
-    sfMusic_setVolume(wolf->sounds->music, wolf->menu->volume);
-    sfSound_setVolume(wolf->sounds->click, wolf->menu->volume);
-    sfSound_setVolume(wolf->sounds->save, wolf->menu->volume);
-    sfSound_setVolume(wolf->sounds->shoot, wolf->menu->volume);
+    if (wolf->sounds->music)
+        sfMusic_setVolume(wolf->sounds->music, wolf->menu->volume);
+    if (wolf->sounds->click)
+        sfSound_setVolume(wolf->sounds->click, wolf->menu->volume);
+    if (wolf->sounds->save)
+        sfSound_setVolume(wolf->sounds->save, wolf->menu->volume);
+    if (wolf->sounds->shoot)
+        sfSound_setVolume(wolf->sounds->shoot, wolf->menu->volume);
+}
+
+static void free_sounds_helper(sound_t *sounds)
+{
+    if (sounds->shoot_buf)
+        sfSoundBuffer_destroy(sounds->shoot_buf);
+    if (sounds->click_buf)
+        sfSoundBuffer_destroy(sounds->click_buf);
+    if (sounds->save_buf)
+        sfSoundBuffer_destroy(sounds->save_buf);
+    free(sounds);
 }
 
 void free_sounds(sound_t *sounds)
 {
     if (!sounds)
         return;
-    sfMusic_stop(sounds->music);
-    sfSound_stop(sounds->shoot);
-    sfSound_stop(sounds->click);
-    sfSound_stop(sounds->save);
-    sfMusic_destroy(sounds->music);
-    sfSound_destroy(sounds->shoot);
-    sfSound_destroy(sounds->click);
-    sfSound_destroy(sounds->save);
-    sfSoundBuffer_destroy(sounds->shoot_buf);
-    sfSoundBuffer_destroy(sounds->click_buf);
-    sfSoundBuffer_destroy(sounds->save_buf);
-    free(sounds);
+    if (sounds->music) {
+        sfMusic_stop(sounds->music);
+        sfMusic_destroy(sounds->music);
+    }
+    if (sounds->shoot) {
+        sfSound_stop(sounds->shoot);
+        sfSound_destroy(sounds->shoot);
+    }
+    if (sounds->click) {
+        sfSound_stop(sounds->click);
+        sfSound_destroy(sounds->click);
+    }
+    if (sounds->save) {
+        sfSound_stop(sounds->save);
+        sfSound_destroy(sounds->save);
+    }
+    free_sounds_helper(sounds);
 }

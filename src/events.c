@@ -62,12 +62,16 @@ static void handle_key_events(wolf_t *wolf, sfKeyCode code)
 
 static void handle_mouse_events(wolf_t *wolf)
 {
-    if (wolf->state == MENU)
+    if (wolf->state == MENU) {
         menu_state(wolf);
-    if (is_clicked(wolf, wolf->menu->g_to_menu))
-        wolf->state = MENU;
-    if (wolf->state == SETTINGS)
+        return;
+    }
+    if (wolf->state == SETTINGS) {
         settings_state(wolf);
+        return;
+    }
+    if (wolf->state == GAME && is_clicked(wolf, wolf->menu->g_to_menu))
+        wolf->state = MENU;
 }
 
 void handle_events(wolf_t *wolf)

@@ -31,10 +31,30 @@ weapon_t *init_weapon(void)
     return weapon;
 }
 
+static void draw_bullet_line(sfRenderWindow *window, weapon_t *weapon)
+{
+    sfVertex lines[2];
+    sfVector2f weapon_pos;
+    float half_duration = 0.0f;
+
+    if (!window || !weapon || weapon->is_shooting == 0)
+        return;
+    half_duration = weapon->duration / 2.0f;
+    if (weapon->shoot_time > half_duration)
+        return;
+    weapon_pos = sfSprite_getPosition(weapon->sprite);
+    lines[0].position = (sfVector2f){640.0f, weapon_pos.y + 40.0f};
+    lines[0].color = sfYellow;
+    lines[1].position = (sfVector2f){640.0f, 200.0f};
+    lines[1].color = sfTransparent;
+    sfRenderWindow_drawPrimitives(window, lines, 2, sfLines, NULL);
+}
+
 void draw_weapon(sfRenderWindow *window, weapon_t *weapon)
 {
     if (!window || !weapon)
         return;
+    draw_bullet_line(window, weapon);
     sfRenderWindow_drawSprite(window, weapon->sprite, NULL);
 }
 
