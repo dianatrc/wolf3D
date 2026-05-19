@@ -39,10 +39,9 @@ static int init_helper(wolf_t *wolf)
     wolf->wall_img = sfImage_createFromFile("utils/wall.bmp");
     wolf->ceiling_img = sfImage_createFromFile("utils/sky.bmp");
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
-    if (!wolf->enemies || !wolf->wall_img || !wolf->ceiling_img
-        || !wolf->floor_img || !wolf->menu)
     wolf->weapon = init_weapon();
-    if (!wolf->enemies || !wolf->wall_img || !wolf->weapon)
+    if (!wolf->enemies || !wolf->wall_img || !wolf->ceiling_img
+        || !wolf->floor_img || !wolf->menu || !wolf->weapon)
         return 1;
     wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
     wolf->enemies[0].health = 100;
