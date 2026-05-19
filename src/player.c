@@ -45,20 +45,29 @@ static void rotate_player(player_t *player, float rot_speed)
         player->plane.y * cos(rot_speed);
 }
 
+static void handle_movement(player_t *player, sfVector2f *next, float move_step)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyW)) {
+        next->x += player->dir.x * move_step;
+        next->y += player->dir.y * move_step;
+    }
+    if (sfKeyboard_isKeyPressed(sfKeyS)) {
+        next->x -= player->dir.x * move_step;
+        next->y -= player->dir.y * move_step;
+    }
+}
+
 void move_player(player_t *player, map_t *map, float dt)
 {
     sfVector2f next = {player->pos.x, player->pos.y};
-    float move_step = player->speed * dt;
+    float current_speed = player->speed;
+    float move_step = 0.0f;
     float rot_step = player->rot_speed * dt;
 
-    if (sfKeyboard_isKeyPressed(sfKeyW)) {
-        next.x += player->dir.x * move_step;
-        next.y += player->dir.y * move_step;
-    }
-    if (sfKeyboard_isKeyPressed(sfKeyS)) {
-        next.x -= player->dir.x * move_step;
-        next.y -= player->dir.y * move_step;
-    }
+    if (sfKeyboard_isKeyPressed(sfKeyLShift))
+        current_speed *= 2.0f;
+    move_step = current_speed * dt;
+    handle_movement(player, &next, move_step);
     if (!is_wall(map, next.x, player->pos.y))
         player->pos.x = next.x;
     if (!is_wall(map, player->pos.x, next.y))

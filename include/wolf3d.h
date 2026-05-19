@@ -78,6 +78,7 @@ typedef struct {
     int is_shooting;
     float shoot_time;
     float duration;
+    float bobbing_time;
 } weapon_t;
 
 typedef struct {
@@ -109,6 +110,7 @@ typedef struct {
     sfImage *wall_img;
     sfImage *ceiling_img;
     sfImage *floor_img;
+    sfView *minimap;
 } wolf_t;
 
 // window.c
@@ -155,4 +157,8 @@ void destroy_weapon(weapon_t *weapon);
 void update_weapon(weapon_t *weapon, float dt);
 // events.c
 void handle_events(wolf_t *wolf);
+// mini_map.c
+void init_minimap(wolf_t *wolf);
+void draw_minimap(sfRenderWindow *window, wolf_t *wolf);
+
 #endif

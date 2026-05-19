@@ -41,6 +41,8 @@ static int init_helper(wolf_t *wolf)
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
     if (!wolf->enemies || !wolf->wall_img || !wolf->ceiling_img
         || !wolf->floor_img || !wolf->menu)
+    wolf->weapon = init_weapon();
+    if (!wolf->enemies || !wolf->wall_img || !wolf->weapon)
         return 1;
     wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
     wolf->enemies[0].health = 100;
@@ -62,13 +64,13 @@ int init_wolf(wolf_t *wolf)
     wolf->sprite = sfSprite_create();
     sfSprite_setTexture(wolf->sprite, wolf->texture, sfTrue);
     wolf->sounds = init_sounds();
-    wolf->weapon = init_weapon();
     if (!wolf->window || !wolf->map || !wolf->player || !wolf->clock
         || !wolf->buffer || !wolf->texture
         || !wolf->sprite || !wolf->sounds || !wolf->weapon) {
         free_wolf(wolf);
         return 84;
     }
+    init_minimap(wolf);
     return 0;
 }
 
@@ -91,6 +93,8 @@ static void free_helper(wolf_t *wolf)
         sfImage_destroy(wolf->floor_img);
     if (wolf->weapon)
         destroy_weapon(wolf->weapon);
+    if (wolf->minimap)
+        sfView_destroy(wolf->minimap);
 }
 
 void free_wolf(wolf_t *wolf)
