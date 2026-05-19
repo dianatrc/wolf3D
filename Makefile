@@ -24,7 +24,8 @@ SRC = src/main.c \
 	src/enemy.c \
 	src/weapon.c \
 	src/events.c \
-	src/mini_map.c
+	src/mini_map.c \
+	src/health.c
 OBJ = $(SRC:.c=.o)
 
 all: wolf3d

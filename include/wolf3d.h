@@ -32,6 +32,7 @@ typedef struct {
     sfVector2f plane;
     float speed;
     float rot_speed;
+    int health;
 } player_t;
 
 typedef struct {
