@@ -124,7 +124,7 @@ void sort_enemies(wolf_t *wolf)
 
 static void move_enemy(wolf_t *wolf, enemy_t *enemy, float dt)
 {
-    float speed = 1.5f * dt;
+    float speed = 0.5f * dt;
     sfVector2f dir = {0};
 
     if (wolf->player->pos.x > enemy->pos.x)

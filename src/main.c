@@ -23,6 +23,7 @@ static void game_state(wolf_t *wolf)
     sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
     draw_weapon(wolf->window, wolf->weapon);
     draw_minimap(wolf->window, wolf);
+    draw_health_bar(wolf->window, wolf);
     sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);
 }
 
