@@ -18,6 +18,7 @@ player_t *create_player(void)
     player->plane = (sfVector2f){0.0f, 0.66f};
     player->speed = 3.0f;
     player->rot_speed = 2.0f;
+    player->health = 100;
     return player;
 }
 
