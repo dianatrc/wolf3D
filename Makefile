@@ -16,7 +16,9 @@ SRC = src/main.c \
 	src/player.c \
 	src/wolf3d.c \
 	src/raycast.c \
-	src/drawing.c \
+	src/drawing/drawing.c \
+	src/drawing/ceiling.c \
+	src/drawing/floor.c \
 	src/save.c \
 	src/sound.c \
 	src/enemy.c \

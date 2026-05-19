@@ -36,7 +36,7 @@ typedef struct {
 
 typedef struct {
     sfVector2f pos;
-    sfTexture *texture;
+    sfImage *image;
     int health;
     float dist;
 } enemy_t;
@@ -108,6 +108,8 @@ typedef struct {
     enemy_t *enemies;
     int enemy_count;
     sfImage *wall_img;
+    sfImage *ceiling_img;
+    sfImage *floor_img;
     sfView *minimap;
 } wolf_t;
 
@@ -130,8 +132,13 @@ void display_menu(sfRenderWindow *window, menu_t *menu);
 void display_settings(sfRenderWindow *window, menu_t *menu);
 void destroy_menu(menu_t *menu);
 // drawing.c
+void apply_light(sfColor *color, float dist);
 void put_pixel(framebuffer_t *buffer, sfColor *color, int x, int y);
 void render_wolf(wolf_t *wolf);
+// ceiling.c
+void draw_ceiling(framebuffer_t *buffer, wolf_t *wolf, int y);
+// floor.c
+void draw_floor(framebuffer_t *buffer, wolf_t *wolf, int y);
 // save.c
 int save_game(wolf_t *wolf, char *filepath);
 int load_save(wolf_t *wolf, char *filepath);
