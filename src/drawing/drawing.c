@@ -118,6 +118,4 @@ void render_wolf(wolf_t *wolf)
         wolf->buffer->d_buffer[x] = ray.wall_dist;
         draw_column(wolf, &ray, x);
     }
-    sfTexture_updateFromPixels(wolf->texture, wolf->buffer->pixels,
-        wolf->buffer->width, wolf->buffer->height, 0, 0);
 }

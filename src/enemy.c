@@ -33,29 +33,23 @@ static void put_enemy_pixel(wolf_t *wolf, sfVector2i *tex, sfVector2i *screen,
     put_pixel(wolf->buffer, &color, screen->x, screen->y);
 }
 
-static void process_pixel(wolf_t *wolf, sfVector2i *screen, float pos, int i)
+static void get_texture_y(sfVector2i *tex, sfVector2u *size)
 {
-    sfVector2u tex_size = sfImage_getSize(wolf->enemies[i].image);
-    sfVector2i tex;
-
-    tex.x = screen->y;
-    tex.y = (int)pos;
-    if (tex.y < 0)
-        tex.y = 0;
-    if (tex.y >= (int)tex_size.y)
-        tex.y = tex_size.y - 1;
-    put_enemy_pixel(wolf, &tex, screen, i);
+    if (tex->y < 0)
+        tex->y = 0;
+    if (tex->y >= (int)size->y)
+        tex->y = size->y - 1;
 }
 
-static void draw_enemy_column(wolf_t *wolf, sfVector2i *screen, int height,
-    int i)
+static void draw_enemy_column(wolf_t *wolf, sfVector2i *xs, int height, int i)
 {
     int start = 360 - height / 2;
     int end = 360 + height / 2;
     sfVector2u tex_size = sfImage_getSize(wolf->enemies[i].image);
     float factor = 1.0f * tex_size.y / height;
     float tex_pos;
-    int current_x = screen->y;
+    sfVector2i screen;
+    sfVector2i tex;
 
     if (start < 0)
         start = 0;
@@ -63,9 +57,10 @@ static void draw_enemy_column(wolf_t *wolf, sfVector2i *screen, int height,
         end = 719;
     tex_pos = (start - 360 + height / 2) * factor;
     for (int y = start; y <= end; y++) {
-        screen->y = current_x;
-        process_pixel(wolf, screen, tex_pos, i);
-        screen->y = y;
+        screen = (sfVector2i){xs->x, y};
+        tex = (sfVector2i){xs->y, (int)tex_pos};
+        get_texture_y(&tex, &tex_size);
+        put_enemy_pixel(wolf, &tex, &screen, i);
         tex_pos += factor;
     }
 }
@@ -74,7 +69,7 @@ static void render_enemy(wolf_t *wolf, int i, sfVector2f *trans)
 {
     int screen_x = (int)((1280 / 2) * (1 + trans->x / trans->y));
     int height = abs((int)(720 / trans->y));
-    sfVector2i screen;
+    sfVector2i xs;
     sfVector2i bounds;
     sfVector2u tex_size = sfImage_getSize(wolf->enemies[i].image);
 
@@ -85,10 +80,10 @@ static void render_enemy(wolf_t *wolf, int i, sfVector2f *trans)
     if (bounds.y >= 1280)
         bounds.y = 1279;
     for (int x = bounds.x; x <= bounds.y; x++) {
-        screen.x = x;
-        screen.y = (int)((x - (screen_x - height / 2)) * tex_size.x / height);
+        xs.x = x;
+        xs.y = (x - (screen_x - height / 2)) * tex_size.x / height;
         if (trans->y < wolf->buffer->d_buffer[x])
-            draw_enemy_column(wolf, &screen, height, i);
+            draw_enemy_column(wolf, &xs, height, i);
     }
 }
 
