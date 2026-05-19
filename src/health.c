@@ -15,7 +15,7 @@ void damage_player(wolf_t *wolf, int damage)
         return;
     wolf->player->health -= damage;
     if (wolf->player->health <= 0)
-        wolf->state = MENU;
+        wolf->state = GAME_OVER;
     else
         wolf->player->damage_cooldown = 1.0f;
 }
@@ -52,4 +52,42 @@ void draw_health_bar(sfRenderWindow *window, wolf_t *wolf)
     draw_bar(window, bar, wolf->player->health);
     sfRectangleShape_destroy(bg);
     sfRectangleShape_destroy(bar);
+}
+
+static void display_message(sfRenderWindow *window, sfFont *font)
+{
+    sfText *game_over = sfText_create();
+
+    if (!game_over)
+        return;
+    sfText_setString(game_over, "GAME OVER");
+    sfText_setFont(game_over, font);
+    sfText_setCharacterSize(game_over, 100);
+    sfText_setPosition(game_over, (sfVector2f){350.0f, 200.f});
+    sfText_setFillColor(game_over, sfWhite);
+    sfRenderWindow_drawText(window, game_over, NULL);
+    sfText_destroy(game_over);
+}
+
+static void display_instruction(sfRenderWindow *window, sfFont *font)
+{
+    sfText *instruction = sfText_create();
+
+    if (!instruction)
+        return;
+    sfText_setString(instruction, "Press SPACE to return to MENU");
+    sfText_setFont(instruction, font);
+    sfText_setCharacterSize(instruction, 50);
+    sfText_setPosition(instruction, (sfVector2f){300.0f, 400.f});
+    sfText_setFillColor(instruction, sfWhite);
+    sfRenderWindow_drawText(window, instruction, NULL);
+    sfText_destroy(instruction);
+}
+
+void draw_game_over(sfRenderWindow *window, wolf_t *wolf)
+{
+    if (!window || !wolf || !wolf->menu || !wolf->menu->font)
+        return;
+    display_message(window, wolf->menu->font);
+    display_instruction(window, wolf->menu->font);
 }

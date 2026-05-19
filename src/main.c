@@ -29,12 +29,8 @@ static void game_state(wolf_t *wolf)
     sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);
 }
 
-static void game_loop(wolf_t *wolf)
+static void draw_game_state(wolf_t *wolf)
 {
-    handle_events(wolf);
-    if (!(wolf->window))
-        return;
-    sfRenderWindow_clear(wolf->window, sfBlack);
     switch (wolf->state) {
         case MENU:
             display_menu(wolf->window, wolf->menu);
@@ -46,10 +42,24 @@ static void game_loop(wolf_t *wolf)
             }
             game_state(wolf);
             break;
+        case GAME_OVER:
+            sfRenderWindow_clear(wolf->window, sfRed);
+            draw_game_over(wolf->window, wolf);
+            if (sfKeyboard_isKeyPressed(sfKeySpace))
+                wolf->state = MENU;
+            break;
         case SETTINGS:
             display_settings(wolf->window, wolf->menu);
-            break;
     }
+}
+
+static void game_loop(wolf_t *wolf)
+{
+    handle_events(wolf);
+    if (!(wolf->window))
+        return;
+    sfRenderWindow_clear(wolf->window, sfBlack);
+    draw_game_state(wolf);
     sfRenderWindow_display(wolf->window);
 }
 
