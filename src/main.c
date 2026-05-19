@@ -12,6 +12,8 @@ static void game_state(wolf_t *wolf)
     sfTime time = sfClock_restart(wolf->clock);
     float dt = sfTime_asSeconds(time);
 
+    if (wolf->player->damage_cooldown > 0.0f)
+        wolf->player->damage_cooldown -= dt;
     render_wolf(wolf);
     sort_enemies(wolf);
     draw_enemies(wolf);
@@ -38,6 +40,10 @@ static void game_loop(wolf_t *wolf)
             display_menu(wolf->window, wolf->menu);
             break;
         case GAME:
+            if (wolf->player->health <= 0) {
+                wolf->player->health = 100;
+                wolf->player->damage_cooldown = 0.0f;
+            }
             game_state(wolf);
             break;
         case SETTINGS:

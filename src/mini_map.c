@@ -62,6 +62,20 @@ static void draw_player_point(sfRenderWindow *window, sfVector2f *pos)
     sfCircleShape_destroy(player_point);
 }
 
+static void draw_enemy_point(sfRenderWindow *window, sfVector2f *pos)
+{
+    sfCircleShape *enemy_point = sfCircleShape_create();
+
+    if (!enemy_point)
+        return;
+    sfCircleShape_setRadius(enemy_point, 0.4f);
+    sfCircleShape_setOrigin(enemy_point, (sfVector2f){0.4f, 0.4f});
+    sfCircleShape_setPosition(enemy_point, *pos);
+    sfCircleShape_setFillColor(enemy_point, sfBlue);
+    sfRenderWindow_drawCircleShape(window, enemy_point, NULL);
+    sfCircleShape_destroy(enemy_point);
+}
+
 void draw_minimap(sfRenderWindow *window, wolf_t *wolf)
 {
     const sfView *default_view = sfRenderWindow_getDefaultView(window);
@@ -76,6 +90,7 @@ void draw_minimap(sfRenderWindow *window, wolf_t *wolf)
     sfView_setSize(wolf->minimap, view_size);
     sfRenderWindow_setView(window, wolf->minimap);
     draw_minimap_grid(window, wolf);
+    draw_enemy_point(window, &wolf->enemies[0].pos);
     draw_player_point(window, &wolf->player->pos);
     sfRenderWindow_setView(window, default_view);
 }

@@ -11,9 +11,13 @@ void damage_player(wolf_t *wolf, int damage)
 {
     if (!wolf || !wolf->player)
         return;
+    if (wolf->player->damage_cooldown > 0.0f)
+        return;
     wolf->player->health -= damage;
     if (wolf->player->health <= 0)
         wolf->state = MENU;
+    else
+        wolf->player->damage_cooldown = 1.0f;
 }
 
 static void draw_background(sfRenderWindow *window, sfRectangleShape *bg)

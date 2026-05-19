@@ -19,6 +19,7 @@ player_t *create_player(void)
     player->speed = 3.0f;
     player->rot_speed = 2.0f;
     player->health = 100;
+    player->damage_cooldown = 0.0f;
     return player;
 }
 

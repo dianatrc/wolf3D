@@ -33,6 +33,7 @@ typedef struct {
     float speed;
     float rot_speed;
     int health;
+    float damage_cooldown;
 } player_t;
 
 typedef struct {
