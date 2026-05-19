@@ -15,6 +15,8 @@ static void game_state(wolf_t *wolf)
     render_wolf(wolf);
     sort_enemies(wolf);
     draw_enemies(wolf);
+    sfTexture_updateFromPixels(wolf->texture, wolf->buffer->pixels,
+        wolf->buffer->width, wolf->buffer->height, 0, 0);
     update_enemies(wolf, dt);
     move_player(wolf->player, wolf->map, dt);
     update_weapon(wolf->weapon, dt);
