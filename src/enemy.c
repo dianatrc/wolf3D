@@ -33,34 +33,35 @@ static void put_enemy_pixel(wolf_t *wolf, sfVector2i *tex, sfVector2i *screen,
     put_pixel(wolf->buffer, &color, screen->x, screen->y);
 }
 
-static void get_texture_y(sfVector2i *tex, sfVector2u *size)
+static void draw_enemy_pixel(wolf_t *wolf, sfVector2i *xs, sfVector2i *y_pos,
+    int i)
 {
-    if (tex->y < 0)
-        tex->y = 0;
-    if (tex->y >= (int)size->y)
-        tex->y = size->y - 1;
+    sfVector2u tex_size = sfImage_getSize(wolf->enemies[i].image);
+    sfVector2i tex = {xs->y, y_pos->y};
+    sfVector2i screen = {xs->x, y_pos->x};
+
+    if (tex.y < 0)
+        tex.y = 0;
+    if (tex.y >= (int)tex_size.y)
+        tex.y = tex_size.y - 1;
+    put_enemy_pixel(wolf, &tex, &screen, i);
 }
 
 static void draw_enemy_column(wolf_t *wolf, sfVector2i *xs, int height, int i)
 {
-    int start = 360 - height / 2;
-    int end = 360 + height / 2;
+    int floor_y = 360 + height / 2;
+    int start = floor_y - height / 2;
     sfVector2u tex_size = sfImage_getSize(wolf->enemies[i].image);
-    float factor = 1.0f * tex_size.y / height;
+    float factor = 1.0f * tex_size.y / (height / 2);
     float tex_pos;
-    sfVector2i screen;
-    sfVector2i tex;
+    sfVector2i y_pos;
 
     if (start < 0)
         start = 0;
-    if (end >= 720)
-        end = 719;
-    tex_pos = (start - 360 + height / 2) * factor;
-    for (int y = start; y <= end; y++) {
-        screen = (sfVector2i){xs->x, y};
-        tex = (sfVector2i){xs->y, (int)tex_pos};
-        get_texture_y(&tex, &tex_size);
-        put_enemy_pixel(wolf, &tex, &screen, i);
+    tex_pos = (start - (floor_y - height / 2)) * factor;
+    for (int y = start; y <= floor_y && y < 720; y++) {
+        y_pos = (sfVector2i){y, (int)tex_pos};
+        draw_enemy_pixel(wolf, xs, &y_pos, i);
         tex_pos += factor;
     }
 }
