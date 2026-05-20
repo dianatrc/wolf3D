@@ -19,6 +19,7 @@ player_t *create_player(void)
     player->speed = 3.0f;
     player->rot_speed = 2.0f;
     player->health = 100;
+    player->damage_cooldown = 0.0f;
     return player;
 }
 
@@ -58,23 +59,41 @@ static void handle_movement(player_t *player, sfVector2f *next, float move_step)
     }
 }
 
+static float get_collision_buffer(float next_pos, float current_pos)
+{
+    if (next_pos > current_pos)
+        return 0.2f;
+    if (next_pos < current_pos)
+        return -0.2f;
+    return 0.0f;
+}
+
+static void handle_rotation(player_t *player, float rot_step)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyA))
+        rotate_player(player, -rot_step);
+    if (sfKeyboard_isKeyPressed(sfKeyD))
+        rotate_player(player, rot_step);
+}
+
 void move_player(player_t *player, map_t *map, float dt)
 {
     sfVector2f next = {player->pos.x, player->pos.y};
     float current_speed = player->speed;
     float move_step = 0.0f;
     float rot_step = player->rot_speed * dt;
+    float buffer_x = 0.0f;
+    float buffer_y = 0.0f;
 
     if (sfKeyboard_isKeyPressed(sfKeyLShift))
         current_speed *= 2.0f;
     move_step = current_speed * dt;
     handle_movement(player, &next, move_step);
-    if (!is_wall(map, next.x, player->pos.y))
+    buffer_x = get_collision_buffer(next.x, player->pos.x);
+    buffer_y = get_collision_buffer(next.y, player->pos.y);
+    if (!is_wall(map, next.x + buffer_x, player->pos.y))
         player->pos.x = next.x;
-    if (!is_wall(map, player->pos.x, next.y))
+    if (!is_wall(map, player->pos.x, next.y + buffer_y))
         player->pos.y = next.y;
-    if (sfKeyboard_isKeyPressed(sfKeyA))
-        rotate_player(player, -rot_step);
-    if (sfKeyboard_isKeyPressed(sfKeyD))
-        rotate_player(player, rot_step);
+    handle_rotation(player, rot_step);
 }
