@@ -57,9 +57,10 @@ static void handle_key_events(wolf_t *wolf, sfKeyCode code)
     if (code == sfKeyEscape)
         wolf->state = MENU;
     if (code == sfKeySpace && wolf->state == GAME &&
-        wolf->weapon->is_shooting == 0) {
+        wolf->weapon->is_shooting == 0 && wolf->weapon->ammunition > 0) {
         wolf->weapon->is_shooting = 1;
         wolf->weapon->shoot_time = 0.0f;
+        wolf->weapon->ammunition--;
         sfSound_play(wolf->sounds->shoot);
         spawn_explosion(wolf, &pos, &orange);
         shoot_wall(wolf);

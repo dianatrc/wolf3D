@@ -23,6 +23,7 @@ SRC = src/main.c \
 	src/sound.c \
 	src/weapon/weapon.c \
 	src/weapon/shoot.c \
+	src/weapon/ammunition.c \
 	src/enemy/enemy.c \
 	src/enemy/movement.c \
 	src/events.c \

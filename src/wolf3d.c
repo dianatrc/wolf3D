@@ -68,7 +68,7 @@ static int init_helper(wolf_t *wolf)
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
     wolf->weapon = init_weapon();
     wolf->break_wall_img = sfImage_createFromFile("utils/breakable_wall.bmp");
-    if (!wolf->wall_img || !wolf->ceiling_img || || !wolf->break_wall_img
+    if (!wolf->wall_img || !wolf->ceiling_img || !wolf->break_wall_img
         || !wolf->floor_img || !wolf->menu || !wolf->weapon)
         return 1;
     if (init_enemies(wolf) == 1 || init_particles(wolf) == 1)

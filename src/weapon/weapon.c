@@ -13,6 +13,7 @@ static void init_weapon_helper(weapon_t *weapon)
     weapon->shoot_time = 0.0f;
     weapon->duration = 0.2f;
     weapon->bobbing_time = 0.0f;
+    weapon->ammunition = 20;
 }
 
 weapon_t *init_weapon(void)

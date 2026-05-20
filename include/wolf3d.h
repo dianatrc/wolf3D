@@ -69,8 +69,6 @@ typedef struct {
     sfText *settings;
     sfText *exit_button;
     sfText *g_to_menu;
-    sfSprite *sprite;
-    sfTexture *texture;
     sfText *vol_up;
     sfText *vol_down;
     sfText *s_to_menu;
@@ -85,6 +83,7 @@ typedef struct {
     float shoot_time;
     float duration;
     float bobbing_time;
+    int ammunition;
 } weapon_t;
 
 typedef struct {
@@ -131,11 +130,8 @@ typedef struct {
     sfImage *ceiling_img;
     sfImage *floor_img;
     sfView *minimap;
-<<<<<<< HEAD
     particles_t *particles;
-=======
     sfImage *break_wall_img;
->>>>>>> cb7516d8ca60ae4787ceb84162292a6663c19d58
 } wolf_t;
 
 // window.c
@@ -196,5 +192,7 @@ void update_particles(wolf_t *wolf, float dt);
 void draw_particles(wolf_t *wolf);
 // shoot.c
 void shoot_wall(wolf_t *wolf);
+// ammunition.c
+void draw_ammunition(sfRenderWindow *window, wolf_t *wolf);
 
 #endif
