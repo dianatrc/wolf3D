@@ -5,8 +5,8 @@
 ** Enemy functions
 */
 
-#include "../include/wolf3d.h"
-#include "../include/raycast.h"
+#include "include/wolf3d.h"
+#include "include/raycast.h"
 
 static void project_enemy(wolf_t *wolf, enemy_t *enemy, sfVector2f *trans)
 {

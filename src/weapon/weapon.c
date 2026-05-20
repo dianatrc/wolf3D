@@ -5,7 +5,7 @@
 ** Weapon creation
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static void init_weapon_helper(weapon_t *weapon)
 {

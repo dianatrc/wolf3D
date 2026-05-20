@@ -5,7 +5,7 @@
 ** Window creation and initialization
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 sfRenderWindow *create_my_window(int width, int height, sfUint32 style)
 {

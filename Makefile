@@ -22,7 +22,8 @@ SRC = src/main.c \
 	src/save.c \
 	src/sound.c \
 	src/enemy.c \
-	src/weapon.c \
+	src/weapon/weapon.c \
+	src/weapon/shoot.c \
 	src/events.c \
 	src/mini_map.c \
 	src/health.c

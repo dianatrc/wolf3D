@@ -5,7 +5,7 @@
 ** Functions for the wolf3d structure
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static framebuffer_t *create_framebuffer(int width, int height)
 {

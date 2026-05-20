@@ -168,5 +168,7 @@ void draw_minimap(sfRenderWindow *window, wolf_t *wolf);
 void damage_player(wolf_t *wolf, int damage);
 void draw_health_bar(sfRenderWindow *window, wolf_t *wolf);
 void draw_game_over(sfRenderWindow *window, wolf_t *wolf);
+// shoot.c
+void shoot_wall(wolf_t *wolf);
 
 #endif

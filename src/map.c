@@ -5,7 +5,7 @@
 ** Map structure management
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static void free_tiles(int **tiles, int rows)
 {
