@@ -97,6 +97,20 @@ typedef struct {
 } sound_t;
 
 typedef struct {
+    sfVector2f pos;
+    sfVector2f vel;
+    float life;
+    float start_life;
+    sfColor color;
+    int active;
+} particle_t;
+
+typedef struct {
+    particle_t *pool;
+    int max;
+} particles_t;
+
+typedef struct {
     sfRenderWindow *window;
     sfUint32 style;
     sfClock *clock;
@@ -116,6 +130,7 @@ typedef struct {
     sfImage *ceiling_img;
     sfImage *floor_img;
     sfView *minimap;
+    particles_t *particles;
     sfImage *break_wall_img;
 } wolf_t;
 
@@ -171,6 +186,10 @@ void draw_minimap(sfRenderWindow *window, wolf_t *wolf);
 void damage_player(wolf_t *wolf, int damage);
 void draw_health_bar(sfRenderWindow *window, wolf_t *wolf);
 void draw_game_over(sfRenderWindow *window, wolf_t *wolf);
+// particles.c
+void spawn_explosion(wolf_t *wolf, sfVector2f *pos, sfColor *color);
+void update_particles(wolf_t *wolf, float dt);
+void draw_particles(wolf_t *wolf);
 // shoot.c
 void shoot_wall(wolf_t *wolf);
 // ammunition.c
