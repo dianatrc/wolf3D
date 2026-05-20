@@ -67,6 +67,7 @@ void update_enemies(wolf_t *wolf, float dt)
     for (int i = 0; i < wolf->enemy_count; i++) {
         dist = pow(wolf->player->pos.x - wolf->enemies[i].pos.x, 2) +
             pow(wolf->player->pos.y - wolf->enemies[i].pos.y, 2);
+        animate_enemy(&wolf->enemies[i], dt);
         if (dist < 100.0f && dist > 0.5f)
             move_enemy(wolf, &wolf->enemies[i], dt);
         if (dist <= 0.5f)
