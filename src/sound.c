@@ -5,7 +5,7 @@
 ** Main sound functions
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static int load_audios(sound_t *sounds)
 {

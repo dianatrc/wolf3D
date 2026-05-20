@@ -5,8 +5,8 @@
 ** Raycast logic using the DDA algorithm
 */
 
-#include "../include/wolf3d.h"
-#include "../include/raycast.h"
+#include "include/wolf3d.h"
+#include "include/raycast.h"
 
 static float get_delta_dist(float dir)
 {

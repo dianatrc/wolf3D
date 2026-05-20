@@ -5,7 +5,7 @@
 ** Player health management
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 void damage_player(wolf_t *wolf, int damage)
 {

@@ -5,7 +5,7 @@
 ** Functions for saving system
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 int save_game(wolf_t *wolf, char *filepath)
 {

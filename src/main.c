@@ -5,7 +5,7 @@
 ** wolf3d project
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static void game_state(wolf_t *wolf)
 {

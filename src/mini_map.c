@@ -5,7 +5,7 @@
 ** Mini-map creation and handling
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 void init_minimap(wolf_t *wolf)
 {

@@ -5,7 +5,7 @@
 ** Main menu functions
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static void create_objects(menu_t *menu)
 {
