@@ -131,7 +131,11 @@ typedef struct {
     sfImage *ceiling_img;
     sfImage *floor_img;
     sfView *minimap;
+<<<<<<< HEAD
     particles_t *particles;
+=======
+    sfImage *break_wall_img;
+>>>>>>> cb7516d8ca60ae4787ceb84162292a6663c19d58
 } wolf_t;
 
 // window.c
@@ -190,5 +194,7 @@ void draw_game_over(sfRenderWindow *window, wolf_t *wolf);
 void spawn_explosion(wolf_t *wolf, sfVector2f *pos, sfColor *color);
 void update_particles(wolf_t *wolf, float dt);
 void draw_particles(wolf_t *wolf);
+// shoot.c
+void shoot_wall(wolf_t *wolf);
 
 #endif

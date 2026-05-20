@@ -5,7 +5,7 @@
 ** Functions involving the player
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 player_t *create_player(void)
 {

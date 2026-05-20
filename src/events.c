@@ -5,7 +5,7 @@
 ** Events management
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static int is_clicked(wolf_t *wolf, sfText *text)
 {
@@ -62,6 +62,7 @@ static void handle_key_events(wolf_t *wolf, sfKeyCode code)
         wolf->weapon->shoot_time = 0.0f;
         sfSound_play(wolf->sounds->shoot);
         spawn_explosion(wolf, &pos, &orange);
+        shoot_wall(wolf);
     }
 }
 

@@ -5,7 +5,7 @@
 ** Functions for the wolf3d structure
 */
 
-#include "../include/wolf3d.h"
+#include "include/wolf3d.h"
 
 static framebuffer_t *create_framebuffer(int width, int height)
 {
@@ -67,7 +67,8 @@ static int init_helper(wolf_t *wolf)
     wolf->ceiling_img = sfImage_createFromFile("utils/sky.bmp");
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
     wolf->weapon = init_weapon();
-    if (!wolf->wall_img || !wolf->ceiling_img
+    wolf->break_wall_img = sfImage_createFromFile("utils/breakable_wall.bmp");
+    if (!wolf->wall_img || !wolf->ceiling_img || || !wolf->break_wall_img
         || !wolf->floor_img || !wolf->menu || !wolf->weapon)
         return 1;
     if (init_enemies(wolf) == 1 || init_particles(wolf) == 1)
@@ -125,6 +126,8 @@ static void free_helper(wolf_t *wolf)
             free(wolf->particles->pool);
         free(wolf->particles);
     }
+    if (wolf->break_wall_img)
+        sfImage_destroy(wolf->break_wall_img);
 }
 
 void free_wolf(wolf_t *wolf)
