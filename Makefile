@@ -21,7 +21,8 @@ SRC = src/main.c \
 	src/drawing/floor.c \
 	src/save.c \
 	src/sound.c \
-	src/enemy.c \
+	src/enemy/enemy.c \
+	src/enemy/movement.c \
 	src/weapon.c \
 	src/events.c \
 	src/mini_map.c \

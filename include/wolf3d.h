@@ -40,6 +40,9 @@ typedef struct {
     sfImage *image;
     int health;
     float dist;
+    int total_frames;
+    int current_frame;
+    float anim_time;
 } enemy_t;
 
 typedef struct {
@@ -149,6 +152,7 @@ void update_volume(wolf_t *wolf, float offset);
 void free_sounds(sound_t *sounds);
 // enemy.c
 void draw_enemies(wolf_t *wolf);
+// movement.c
 void sort_enemies(wolf_t *wolf);
 void update_enemies(wolf_t *wolf, float dt);
 // weapon.c
