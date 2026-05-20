@@ -28,14 +28,27 @@ static framebuffer_t *create_framebuffer(int width, int height)
     return buffer;
 }
 
+static int init_enemies(wolf_t *wolf)
+{
+    wolf->enemy_count = 1;
+    wolf->enemies = malloc(sizeof(enemy_t) * wolf->enemy_count);
+    if (!wolf->enemies)
+        return 1;
+    wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
+    wolf->enemies[0].health = 100;
+    wolf->enemies[0].image = sfImage_createFromFile("utils/enemy.bmp");
+    wolf->enemies[0].total_frames = 4;
+    wolf->enemies[0].current_frame = 0;
+    wolf->enemies[0].anim_time = 0.0f;
+    return 0;
+}
+
 static int init_helper(wolf_t *wolf)
 {
     wolf->menu = init_menu();
     wolf->style = sfClose | sfResize;
     wolf->state = MENU;
     wolf->flash_on = 0;
-    wolf->enemy_count = 1;
-    wolf->enemies = malloc(sizeof(enemy_t) * wolf->enemy_count);
     wolf->wall_img = sfImage_createFromFile("utils/wall.bmp");
     wolf->ceiling_img = sfImage_createFromFile("utils/sky.bmp");
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
@@ -45,9 +58,8 @@ static int init_helper(wolf_t *wolf)
         || !wolf->floor_img || !wolf->menu || !wolf->weapon
         || !wolf->break_wall_img)
         return 1;
-    wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
-    wolf->enemies[0].health = 100;
-    wolf->enemies[0].image = sfImage_createFromFile("utils/enemy.bmp");
+    if (init_enemies(wolf) == 1)
+        return 1;
     return 0;
 }
 
