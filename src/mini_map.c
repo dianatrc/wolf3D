@@ -9,9 +9,9 @@
 
 void init_minimap(wolf_t *wolf)
 {
-    float width_ratio = 0.2f * (720.0f / 1280.0f);
+    float width_ratio = 0.25f * (720.0f / 1280.0f);
     sfFloatRect viewport = {1.0f - width_ratio - 0.02f,
-        0.78f, width_ratio, 0.2f};
+        0.75f, width_ratio, 0.2f};
 
     wolf->minimap = sfView_create();
     if (!wolf->minimap)
