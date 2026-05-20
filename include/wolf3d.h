@@ -33,6 +33,7 @@ typedef struct {
     float speed;
     float rot_speed;
     int health;
+    float damage_cooldown;
 } player_t;
 
 typedef struct {
@@ -55,7 +56,8 @@ typedef struct {
 typedef enum {
     MENU,
     GAME,
-    SETTINGS
+    SETTINGS,
+    GAME_OVER
 } game_state_t;
 
 typedef struct {
@@ -165,5 +167,9 @@ void handle_events(wolf_t *wolf);
 // mini_map.c
 void init_minimap(wolf_t *wolf);
 void draw_minimap(sfRenderWindow *window, wolf_t *wolf);
+// health.c
+void damage_player(wolf_t *wolf, int damage);
+void draw_health_bar(sfRenderWindow *window, wolf_t *wolf);
+void draw_game_over(sfRenderWindow *window, wolf_t *wolf);
 
 #endif

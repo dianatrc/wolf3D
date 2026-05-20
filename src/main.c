@@ -12,6 +12,8 @@ static void game_state(wolf_t *wolf)
     sfTime time = sfClock_restart(wolf->clock);
     float dt = sfTime_asSeconds(time);
 
+    if (wolf->player->damage_cooldown > 0.0f)
+        wolf->player->damage_cooldown -= dt;
     render_wolf(wolf);
     sort_enemies(wolf);
     draw_enemies(wolf);
@@ -23,7 +25,32 @@ static void game_state(wolf_t *wolf)
     sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
     draw_weapon(wolf->window, wolf->weapon);
     draw_minimap(wolf->window, wolf);
+    draw_health_bar(wolf->window, wolf);
     sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);
+}
+
+static void draw_game_state(wolf_t *wolf)
+{
+    switch (wolf->state) {
+        case MENU:
+            display_menu(wolf->window, wolf->menu);
+            break;
+        case GAME:
+            if (wolf->player->health <= 0) {
+                wolf->player->health = 100;
+                wolf->player->damage_cooldown = 0.0f;
+            }
+            game_state(wolf);
+            break;
+        case GAME_OVER:
+            sfRenderWindow_clear(wolf->window, sfRed);
+            draw_game_over(wolf->window, wolf);
+            if (sfKeyboard_isKeyPressed(sfKeySpace))
+                wolf->state = MENU;
+            break;
+        case SETTINGS:
+            display_settings(wolf->window, wolf->menu);
+    }
 }
 
 static void game_loop(wolf_t *wolf)
@@ -32,17 +59,7 @@ static void game_loop(wolf_t *wolf)
     if (!(wolf->window))
         return;
     sfRenderWindow_clear(wolf->window, sfBlack);
-    switch (wolf->state) {
-        case MENU:
-            display_menu(wolf->window, wolf->menu);
-            break;
-        case GAME:
-            game_state(wolf);
-            break;
-        case SETTINGS:
-            display_settings(wolf->window, wolf->menu);
-            break;
-    }
+    draw_game_state(wolf);
     sfRenderWindow_display(wolf->window);
 }
 
