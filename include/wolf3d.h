@@ -114,6 +114,7 @@ typedef struct {
     sfImage *ceiling_img;
     sfImage *floor_img;
     sfView *minimap;
+    sfImage *break_wall_img;
 } wolf_t;
 
 // window.c

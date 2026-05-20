@@ -74,8 +74,11 @@ static void draw_wall(wolf_t *wolf, raycast_t *ray, int tex_data[3],
 {
     sfColor wall_color;
     int tex_y = get_texture_y(tex_data[1], tex_data[2]);
+    sfImage *img = wolf->wall_img;
 
-    wall_color = sfImage_getPixel(wolf->wall_img, tex_data[0], tex_y);
+    if (wolf->map->tiles[ray->map.y][ray->map.x] == 2)
+        img = wolf->break_wall_img;
+    wall_color = sfImage_getPixel(img, tex_data[0], tex_y);
     if (ray->side == 1) {
         wall_color.r /= 1.5f;
         wall_color.g /= 1.5f;

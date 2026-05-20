@@ -39,9 +39,11 @@ static int init_helper(wolf_t *wolf)
     wolf->wall_img = sfImage_createFromFile("utils/wall.bmp");
     wolf->ceiling_img = sfImage_createFromFile("utils/sky.bmp");
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
+    wolf->break_wall_img = sfImage_createFromFile("utils/breakable_wall.bmp");
     wolf->weapon = init_weapon();
     if (!wolf->enemies || !wolf->wall_img || !wolf->ceiling_img
-        || !wolf->floor_img || !wolf->menu || !wolf->weapon)
+        || !wolf->floor_img || !wolf->menu || !wolf->weapon
+        || !wolf->break_wall_img)
         return 1;
     wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
     wolf->enemies[0].health = 100;
@@ -94,6 +96,8 @@ static void free_helper(wolf_t *wolf)
         destroy_weapon(wolf->weapon);
     if (wolf->minimap)
         sfView_destroy(wolf->minimap);
+    if (wolf->break_wall_img)
+        sfImage_destroy(wolf->break_wall_img);
 }
 
 void free_wolf(wolf_t *wolf)
