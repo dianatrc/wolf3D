@@ -16,7 +16,6 @@ static void create_objects(menu_t *menu)
     menu->save_button = sfText_create();
     menu->load_button = sfText_create();
     menu->g_to_menu = sfText_create();
-    menu->sprite = sfSprite_create();
     menu->vol_up = sfText_create();
     menu->vol_down = sfText_create();
     menu->s_to_menu = sfText_create();
@@ -63,17 +62,9 @@ menu_t *init_menu(void)
     if (!menu)
         return NULL;
     menu->font = sfFont_createFromFile("utils/arial.ttf");
-    menu->texture = sfTexture_createFromFile("utils/menu_background.jpg", NULL);
-    if (!menu->font || !menu->texture) {
-        if (menu->font)
-            sfFont_destroy(menu->font);
-        if (menu->texture)
-            sfTexture_destroy(menu->texture);
-        free(menu);
+    if (!menu->font)
         return NULL;
-    }
     create_objects(menu);
-    sfSprite_setTexture(menu->sprite, menu->texture, sfTrue);
     menu_texts(menu);
     menu->volume = 20.0f;
     return menu;
@@ -81,7 +72,7 @@ menu_t *init_menu(void)
 
 void display_menu(sfRenderWindow *window, menu_t *menu)
 {
-    sfRenderWindow_drawSprite(window, menu->sprite, NULL);
+    sfRenderWindow_clear(window, sfRed);
     sfRenderWindow_drawText(window, menu->title, NULL);
     sfRenderWindow_drawText(window, menu->play_button, NULL);
     sfRenderWindow_drawText(window, menu->settings, NULL);
@@ -92,7 +83,7 @@ void display_menu(sfRenderWindow *window, menu_t *menu)
 
 void display_settings(sfRenderWindow *window, menu_t *menu)
 {
-    sfRenderWindow_drawSprite(window, menu->sprite, NULL);
+    sfRenderWindow_clear(window, sfRed);
     sfRenderWindow_drawText(window, menu->title, NULL);
     sfRenderWindow_drawText(window, menu->vol_up, NULL);
     sfRenderWindow_drawText(window, menu->vol_down, NULL);
@@ -112,7 +103,5 @@ void destroy_menu(menu_t *menu)
     sfText_destroy(menu->vol_down);
     sfText_destroy(menu->s_to_menu);
     sfFont_destroy(menu->font);
-    sfSprite_destroy(menu->sprite);
-    sfTexture_destroy(menu->texture);
     free(menu);
 }

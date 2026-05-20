@@ -69,8 +69,6 @@ typedef struct {
     sfText *settings;
     sfText *exit_button;
     sfText *g_to_menu;
-    sfSprite *sprite;
-    sfTexture *texture;
     sfText *vol_up;
     sfText *vol_down;
     sfText *s_to_menu;
