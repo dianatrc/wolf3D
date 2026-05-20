@@ -14,6 +14,7 @@ static void draw_elements(wolf_t *wolf)
     draw_minimap(wolf->window, wolf);
     draw_ammunition(wolf->window, wolf);
     draw_health_bar(wolf->window, wolf);
+    draw_crosshair(wolf->window);
     sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);
 }
 
