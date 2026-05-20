@@ -46,6 +46,10 @@ static void menu_state(wolf_t *wolf)
 
 static void handle_key_events(wolf_t *wolf, sfKeyCode code)
 {
+    sfVector2f pos = {wolf->player->pos.x + wolf->player->dir.x * 2.0f,
+        wolf->player->pos.y + wolf->player->dir.y * 2.0f};
+    sfColor orange = {225, 165, 0, 255};
+
     if (code == sfKeyF)
         window_fullscreen(&(wolf->window), &wolf->style);
     if (code == sfKeyL)
@@ -57,6 +61,7 @@ static void handle_key_events(wolf_t *wolf, sfKeyCode code)
         wolf->weapon->is_shooting = 1;
         wolf->weapon->shoot_time = 0.0f;
         sfSound_play(wolf->sounds->shoot);
+        spawn_explosion(wolf, &pos, &orange);
         shoot_wall(wolf);
     }
 }

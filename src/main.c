@@ -7,6 +7,15 @@
 
 #include "include/wolf3d.h"
 
+static void draw_elements(wolf_t *wolf)
+{
+    sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
+    draw_weapon(wolf->window, wolf->weapon);
+    draw_minimap(wolf->window, wolf);
+    draw_health_bar(wolf->window, wolf);
+    sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);
+}
+
 static void game_state(wolf_t *wolf)
 {
     sfTime time = sfClock_restart(wolf->clock);
@@ -14,19 +23,17 @@ static void game_state(wolf_t *wolf)
 
     if (wolf->player->damage_cooldown > 0.0f)
         wolf->player->damage_cooldown -= dt;
+    update_enemies(wolf, dt);
+    update_particles(wolf, dt);
+    move_player(wolf->player, wolf->map, dt);
+    update_weapon(wolf->weapon, dt);
     render_wolf(wolf);
     sort_enemies(wolf);
     draw_enemies(wolf);
+    draw_particles(wolf);
     sfTexture_updateFromPixels(wolf->texture, wolf->buffer->pixels,
         wolf->buffer->width, wolf->buffer->height, 0, 0);
-    update_enemies(wolf, dt);
-    move_player(wolf->player, wolf->map, dt);
-    update_weapon(wolf->weapon, dt);
-    sfRenderWindow_drawSprite(wolf->window, wolf->sprite, NULL);
-    draw_weapon(wolf->window, wolf->weapon);
-    draw_minimap(wolf->window, wolf);
-    draw_health_bar(wolf->window, wolf);
-    sfRenderWindow_drawText(wolf->window, wolf->menu->g_to_menu, NULL);
+    draw_elements(wolf);
 }
 
 static void draw_game_state(wolf_t *wolf)

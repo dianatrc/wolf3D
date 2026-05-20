@@ -43,6 +43,20 @@ static int init_enemies(wolf_t *wolf)
     return 0;
 }
 
+static int init_particles(wolf_t *wolf)
+{
+    wolf->particles = malloc(sizeof(particles_t));
+    if (!wolf->particles)
+        return 1;
+    wolf->particles->max = 100;
+    wolf->particles->pool = malloc(sizeof(particle_t) * 100);
+    if (!wolf->particles->pool)
+        return 1;
+    for (int i = 0; i < 100; i++)
+        wolf->particles->pool[i].active = 0;
+    return 0;
+}
+
 static int init_helper(wolf_t *wolf)
 {
     wolf->menu = init_menu();
@@ -52,13 +66,12 @@ static int init_helper(wolf_t *wolf)
     wolf->wall_img = sfImage_createFromFile("utils/wall.bmp");
     wolf->ceiling_img = sfImage_createFromFile("utils/sky.bmp");
     wolf->floor_img = sfImage_createFromFile("utils/grass.bmp");
-    wolf->break_wall_img = sfImage_createFromFile("utils/breakable_wall.bmp");
     wolf->weapon = init_weapon();
-    if (!wolf->enemies || !wolf->wall_img || !wolf->ceiling_img
-        || !wolf->floor_img || !wolf->menu || !wolf->weapon
-        || !wolf->break_wall_img)
+    wolf->break_wall_img = sfImage_createFromFile("utils/breakable_wall.bmp");
+    if (!wolf->wall_img || !wolf->ceiling_img || || !wolf->break_wall_img
+        || !wolf->floor_img || !wolf->menu || !wolf->weapon)
         return 1;
-    if (init_enemies(wolf) == 1)
+    if (init_enemies(wolf) == 1 || init_particles(wolf) == 1)
         return 1;
     return 0;
 }
@@ -108,6 +121,11 @@ static void free_helper(wolf_t *wolf)
         destroy_weapon(wolf->weapon);
     if (wolf->minimap)
         sfView_destroy(wolf->minimap);
+    if (wolf->particles) {
+        if (wolf->particles->pool)
+            free(wolf->particles->pool);
+        free(wolf->particles);
+    }
     if (wolf->break_wall_img)
         sfImage_destroy(wolf->break_wall_img);
 }
