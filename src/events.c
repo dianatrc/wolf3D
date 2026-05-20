@@ -54,10 +54,13 @@ static void handle_key_events(wolf_t *wolf, sfKeyCode code)
         wolf->state = MENU;
     if (code == sfKeySpace && wolf->state == GAME &&
         wolf->weapon->is_shooting == 0) {
-        wolf->weapon->is_shooting = 1;
-        wolf->weapon->shoot_time = 0.0f;
-        sfSound_play(wolf->sounds->shoot);
-        shoot_wall(wolf);
+        if (wolf->weapon->ammunition > 0) {
+            wolf->weapon->is_shooting = 1;
+            wolf->weapon->shoot_time = 0.0f;
+            wolf->weapon->ammunition--;
+            sfSound_play(wolf->sounds->shoot);
+            shoot_wall(wolf);
+        }
     }
 }
 

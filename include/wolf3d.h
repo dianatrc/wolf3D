@@ -85,6 +85,7 @@ typedef struct {
     float shoot_time;
     float duration;
     float bobbing_time;
+    int ammunition;
 } weapon_t;
 
 typedef struct {
@@ -174,5 +175,7 @@ void draw_health_bar(sfRenderWindow *window, wolf_t *wolf);
 void draw_game_over(sfRenderWindow *window, wolf_t *wolf);
 // shoot.c
 void shoot_wall(wolf_t *wolf);
+// ammunition.c
+void draw_ammunition(sfRenderWindow *window, wolf_t *wolf);
 
 #endif
