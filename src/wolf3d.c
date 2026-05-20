@@ -46,6 +46,9 @@ static int init_helper(wolf_t *wolf)
     wolf->enemies[0].pos = (sfVector2f){4.5f, 1.5f};
     wolf->enemies[0].health = 100;
     wolf->enemies[0].image = sfImage_createFromFile("utils/enemy.bmp");
+    wolf->enemies[0].total_frames = 4;
+    wolf->enemies[0].current_frame = 0;
+    wolf->enemies[0].anim_time = 0.0f;
     return 0;
 }
 
