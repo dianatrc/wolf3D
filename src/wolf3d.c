@@ -109,6 +109,8 @@ static void free_buffer(framebuffer_t *buffer)
 
 static void free_helper(wolf_t *wolf)
 {
+    if (wolf->enemies && wolf->enemies->image)
+        sfImage_destroy(wolf->enemies->image);
     if (wolf->enemies)
         free(wolf->enemies);
     if (wolf->wall_img)
@@ -121,11 +123,10 @@ static void free_helper(wolf_t *wolf)
         destroy_weapon(wolf->weapon);
     if (wolf->minimap)
         sfView_destroy(wolf->minimap);
-    if (wolf->particles) {
-        if (wolf->particles->pool)
-            free(wolf->particles->pool);
+    if (wolf->particles && wolf->particles->pool)
+        free(wolf->particles->pool);
+    if (wolf->particles)
         free(wolf->particles);
-    }
     if (wolf->break_wall_img)
         sfImage_destroy(wolf->break_wall_img);
 }

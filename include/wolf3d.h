@@ -194,5 +194,6 @@ void draw_particles(wolf_t *wolf);
 void shoot_wall(wolf_t *wolf);
 // ammunition.c
 void draw_ammunition(sfRenderWindow *window, wolf_t *wolf);
+void draw_crosshair(sfRenderWindow *window);
 
 #endif
