@@ -5,7 +5,7 @@
 ## Makefile for building the wolf3d project
 ##
 
-CC = epiclang
+CC = gcc
 LDFLAGS = -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio -lm
 CFLAGS = -Wall -Wextra -Werror -I.
 
